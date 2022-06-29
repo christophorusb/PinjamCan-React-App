@@ -1,0 +1,48 @@
+
+.register-page-wrapper{
+    width: 100%;
+    height: 100vh;
+    justify-content: center;
+    display: flex;
+ }
+
+ .register-content{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+ }
+
+ .register-form-first-section{
+    width: 80%;
+    margin-bottom: 10px;
+    padding: 40px 40px 40px 40px;
+    border: 1px solid rgb(204, 200, 200);
+    border-radius: 15px 15px 15px 15px;
+ }
+
+ .register-form-second-section{
+   margin-bottom: 10px;
+   max-width: 1200px;
+   padding: 40px 40px 40px 40px;
+   border: 1px solid rgb(204, 200, 200);
+   border-radius: 15px 15px 15px 15px;
+ }
+
+ .register-submit-button{
+    width: 100%;
+    margin-top: 50px;
+ }
+
+ .register-submit-button:hover{
+    background-color: #2e354e;
+ }
+
+ .link-to-home, .link-to-terms-and-conditions, .link-to-privacy-policy, .link-to-login{
+    text-decoration: none;
+ }
+ 
+ .register-invalid-message{
+   font-size: 0.8rem;
+ }

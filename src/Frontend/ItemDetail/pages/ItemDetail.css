@@ -1,0 +1,5 @@
+@import "~react-image-gallery/styles/css/image-gallery.css";
+
+.ant-picker-dropdown.ant-picker-dropdown-range{
+    z-index: 1055;
+}

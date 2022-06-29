@@ -1,0 +1,26 @@
+.set-navbar-margin{
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.set-navbar-padding{
+    padding-left: 60px !important;
+    padding-right: 60px !important;
+}
+
+.login-button{
+    width: 150px;
+    margin-left: 20px;
+    margin-right: 20px;
+    border-radius: 20px 20px 20px 20px;
+}
+
+.signup-button{
+    width: 150px;
+    background-color: #3D4667;
+    border-radius: 20px 20px 20px 20px;
+}
+
+.signup-button:hover{
+    background-color: #292f46;
+}

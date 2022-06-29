@@ -1,0 +1,11 @@
+.category-img-holder{
+    height: 10rem;
+    background-color: cyan;
+}
+.category-img-wrapper{
+    cursor: pointer;
+    transition: transform .1s;
+}
+.category-img-wrapper:hover{
+    transform: scale(1.1)
+}

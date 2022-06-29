@@ -1,0 +1,16 @@
+
+.custom-register-success-modal{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 0 50px 0;
+}
+
+.back-to-login-btn{
+    padding-left: 50px;
+    padding-right: 50px;
+}
+.back-to-login-btn:hover{
+    background-color: #292f46;
+}

@@ -1,0 +1,15 @@
+.secondary-img-wrapper{
+    height: 450px;
+    width: auto;
+    position: absolute;
+    z-index: -1;
+    right: 0;
+    top:1000px;
+    right: 300px;
+}
+
+.secondary-img{
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+}

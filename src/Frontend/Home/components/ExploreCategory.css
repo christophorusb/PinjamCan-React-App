@@ -1,0 +1,18 @@
+.category-sub-title{
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 600;
+}
+
+.category-wrapper{
+    margin-top: 300px;
+}
+
+.category-card{
+    margin: 10px 10px 10px 10px;
+}
+
+.category-card-wrapper{
+    display: flex;
+    flex-wrap: wrap;
+}

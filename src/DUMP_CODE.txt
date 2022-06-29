@@ -1,0 +1,127 @@
+// async function loginUser(event){
+    //     event.preventDefault();
+    //     const response = await fetch('http://localhost:5000/api/users/login',{
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //             },
+    //             body: JSON.stringify({
+    //                 userEmail: loginEmail,
+    //                 userPassword: loginPassword,
+    //             }),
+    //         })
+    //     const data = await response.json()
+    //     console.log(response.ok)
+    // }
+
+    // const loginUser = (e) => {
+    //     e.preventDefault();
+    //     Axios({
+    //         method: 'POST',
+    //         data: {
+    //             userEmail: loginEmail,
+    //             userPassword: loginPassword,
+    //         },
+    //         withCredentials: true,
+    //         url: "http://localhost:5000/api/users/login"
+    //     }).then((res) => console.log(res))
+    // }
+
+
+
+     <Controller 
+        control={control}
+        name="multi-image-upload"
+        defaultValue={[]}
+        render={({
+            field: { onChange},
+            formState: { errors },
+        }) => (
+            <>
+            <Form.Label>Foto Barang</Form.Label>
+              <ImgCrop 
+                rotate 
+                zoom grid={true} 
+                modalTitle="Atur foto"
+                modalCancel="Batal"
+              >
+                <Upload
+                  progress
+                  listType="picture-card"
+                  fileList={fileList}
+                  onPreview={onPreview}
+                  beforeUpload = {(file) => beforeUpload(file)}
+                  onRemove={(file) => onRemove(file)}
+                  onChange={onChange}
+                >
+                  {fileList.length < 5 && '+ Unggah Foto'}
+                </Upload>
+              </ImgCrop>
+              <ErrorMessage 
+                errors={errors} 
+                name="multi-image-upload" 
+                render={({ message }) => <p style={{fontSize:'0.9rem', color:'red'}}>{message}</p>}
+              />
+            </>
+        )
+    }
+
+    rules = {{required: "Foto barang tidak boleh kosong!"}}
+    />
+
+==============================================================================
+
+
+    const ItemName = req.body.ItemName
+    const ItemDescription = req.body.ItemDescription
+    const ItemCategory = req.body.ItemCategory
+    const ItemPriceDaily = req.body.ItemPriceDaily
+    const ItemPriceWeekly = req.body.ItemPriceWeekly
+    const ItemPriceMonthly = req.body.ItemPriceMonthly
+    //
+    const ItemMinRentDuration = req.body.ItemMinRentDuration
+    const ItemWeight = req.body.ItemWeight
+    //
+    const ItemStatus = req.body.ItemStatus
+    const ItemDeliveryOption = req.body.ItemDeliveryOption
+    const ItemCreatedAt = req.body.ItemCreatedAt
+    const ItemCreatedBy = req.body.ItemCreatedBy
+    const ItemModifiedDate = req.body.ItemModifiedDate
+    const ItemModifiedBy = req.body.ItemModifiedBy
+    console.log(ItemName)
+
+    if(!ItemName || !ItemDescription || !ItemCategory || !ItemPriceDaily || !ItemMinRentDuration || !ItemWeight || !ItemDeliveryOption){
+        return res.status(400).json({ status: 'error', message: 'Data harus diisi!' })
+    }
+
+
+    const newItem = await ItemModel.create({
+        ItemName: ItemName,
+        ItemDescription: ItemDescription,
+        ItemCategory: ItemCategory,
+        ItemPriceDaily: ItemPriceDaily,
+        ItemPriceWeekly: ItemPriceWeekly,
+        ItemPriceMonthly: ItemPriceMonthly,
+        //
+        ItemMinRentDuration: ItemMinRentDuration,
+        ItemWeight: ItemWeight,
+        //
+        ItemStatus: ItemStatus,
+        ItemDeliveryOption: ItemDeliveryOption,
+        ItemCreatedAt: ItemCreatedAt,
+        ItemCreatedBy: ItemCreatedBy,
+        ItemModifiedDate: ItemModifiedDate,
+        ItemModifiedBy: ItemModifiedBy
+
+    })
+    if (newItem) {
+        return res.status(200).json({
+            success: 'success',
+            data: newItem
+        })
+    }else{
+        return res.status(400).json({
+            success: 'fail',
+            message: 'Failed to create new item'
+        })
+    }

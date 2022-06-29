@@ -1,0 +1,31 @@
+.first-heading-parent-wrapper{
+    margin-top: 150px;
+}
+
+.first-heading-wrapper{
+    width: 600px;
+}
+
+.first-heading, .second-heading{
+    font-size: 64px;
+    font-weight:600;
+}
+
+.first-sub-heading, .second-sub-heading{
+    font-size: 24px;
+    font-weight:200px;
+}
+
+.first-sub-heading-wrapper, .second-sub-heading-wrapper{
+    width: 530px;
+}
+
+.second-heading-wrapper{
+    margin-top: 350px;
+    width: 680px;
+}
+
+.list-item-btn{
+    border: none;
+    border-radius: 25px 25px 25px 25px;
+}

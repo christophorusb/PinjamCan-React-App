@@ -1,0 +1,33 @@
+.search-bar-wrapper{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.form-wrapper{
+    max-width: 400px;
+    width: 100%;
+}
+
+.search-icon-wrapper{
+    border: 1px solid black;
+    border-right: none;
+    border-radius: 20px 0px 0px 20px;
+    width: 40px;
+    padding: 5px 5px 5px 5px;
+    background-color: white;
+}
+
+.search-input-field{
+    border: 1px solid black;
+    border-left: none;
+    border-radius: 0px 20px 20px 0px;
+    padding: 5px 5px 5px 5px;
+    background-color: white;
+    width: 100%;
+}
+
+.search-input-field:focus{
+    outline:0px !important;
+    box-shadow: none !important;
+}
