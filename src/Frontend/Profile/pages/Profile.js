@@ -166,7 +166,7 @@ const Profile = () => {
     }, [])
 
   return (
-    <Container className="">
+    <Container>
         <div className="border p-5 shadow rounded" style={{
             position: 'absolute',
             width: '50%',

@@ -80,7 +80,7 @@ const AuthHome = () => {
           }
         </div>
         
-        <div className="mt-5 position-relative">
+        <div className="position-relative" style={{marginTop: '100px'}}>
           <p className="primary-font-color" style={{textAlign:'left', marginBottom:'60px', marginLeft:'10px', fontSize:'1.5rem'}}>
             <strong>Mungkin kamu tertarik</strong>
           </p>
@@ -103,6 +103,44 @@ const AuthHome = () => {
               <Row xs="2" sm="3" md='4' lg='5' xl='6' xxl='6' className="g-5">
                 {
                   dataResponses.randomItems.map(item => (
+                    <Link key={item._id} to={localStorage.getItem('token') ? `/home/item/${item._id}` : `/item/${item._id}`}>
+                      <ItemCard 
+                          MainItemPictureLocalPath={item.MainItemPictureLocalPath} 
+                          ItemName={item.ItemName} 
+                          ItemPriceDailyMinimum={item.ItemPriceDailyMinimum}
+                          ItemRatings={item.ItemRatings}
+                      />
+                    </Link >
+                  ))
+                } 
+              </Row>
+            </Col>
+          }
+        </div>
+
+        <div className="position-relative" style={{marginTop: '100px'}}>
+          <p className="primary-font-color" style={{textAlign:'left', marginBottom:'60px', marginLeft:'10px', fontSize:'1.5rem'}}>
+            <strong>Paling banyak dilihat</strong>
+          </p>
+          {isLoading === true && 
+            <CustomCircularLoading />
+          }
+          {
+            isLoading === false &&
+            <Col 
+              style={{
+                backgroundColor:'rgb(255, 219, 219)',
+                paddingLeft: '2rem',
+                paddingRight:'2rem',
+                paddingBottom: '3rem',
+                borderRadius: '20px 20px 20px 20px'
+              }}
+              className="shadow"
+              sm="12" md="12" lg="12" xl="12" xxl="12"
+            >
+              <Row xs="2" sm="3" md='4' lg='5' xl='6' xxl='6' className="g-5">
+                {
+                  dataResponses.mostViewed.map(item => (
                     <Link key={item._id} to={localStorage.getItem('token') ? `/home/item/${item._id}` : `/item/${item._id}`}>
                       <ItemCard 
                           MainItemPictureLocalPath={item.MainItemPictureLocalPath} 

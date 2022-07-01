@@ -52,6 +52,20 @@ const MyItems = () => {
         })
     }
 
+    const handleDisableDeleteButton = (item) => {
+        console.log(item.IncomingOrders)
+        if(item.OngoingOrders.length === 0 && item.IncomingOrders.length === 0){
+            return (
+                <Button onClick = {() => deleteItemConfirmation(item._id)} className="btn-sm me-2 tertiary-button pe-3 ps-3">
+                    <FaTrash style={{color: 'white'}}/> Hapus
+                </Button>
+            )
+        }
+        else{
+            return <Button disabled className="btn-sm me-2 tertiary-button pe-3 ps-3"><FaTrash style={{color: 'white'}}/>Hapus</Button>
+        }
+    }
+
     const deleteItemConfirmation = (itemId) => {
         AntdModal.confirm({
             title: 'Apakah kamu yakin akan menghapus barang ini?',
@@ -218,12 +232,7 @@ const MyItems = () => {
                                 <Button className="btn-sm me-2 secondary-button pe-3 ps-3"><AiFillEdit style={{color: 'white'}}/> Edit</Button>
                             </Link>
                             {
-                                item.OngoingOrders.length === 0 ?
-                                <Button onClick = {() => deleteItemConfirmation(item._id)} className="btn-sm me-2 tertiary-button pe-3 ps-3">
-                                    <FaTrash style={{color: 'white'}}/> Hapus
-                                </Button>
-                                :
-                                <Button disabled className="btn-sm me-2 tertiary-button pe-3 ps-3"><FaTrash style={{color: 'white'}}/>Hapus</Button>
+                               handleDisableDeleteButton(item)
                             }
                         </div>
                         {

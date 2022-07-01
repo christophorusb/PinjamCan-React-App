@@ -11,6 +11,7 @@ import WithoutGuestNav from './Frontend/shared/WithoutGuestNav';
 import WithGuestNav from './Frontend/shared/WithGuestNav';
 import ProtectRoute from './Frontend/shared/ProtectRoute';
 import WithDashboardNav from './Frontend/shared/WithDashboardNav';
+import WithDasboardNavNoFooter from './Frontend/shared/WithDashboardNavNoFooter';
 
 //pages
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -84,43 +85,46 @@ const App = () => {
                 <SearchedItems />
               }
               />
-              <Route path="/cart" element={
-                <ProtectRoute>
-                  <Cart />
-                </ProtectRoute>
-              } 
-              />
               <Route path="/payment-notification" element={
                 <PaymentNotification />
-              } />
-              <Route path="/order-history" element={
-                <ProtectRoute>
-                  <OrderHistory />
-                </ProtectRoute>
-              } 
-              />
-              <Route path="/wishlist" element={
-                <ProtectRoute>
-                  <WishList />
-                </ProtectRoute>
-              } />
-               <Route path="/my-items" element={
-                <ProtectRoute>
-                  <MyItems />
-                </ProtectRoute>
               } />
               <Route path="/my-items/edit/:itemId" element={
                 <ProtectRoute>
                   <EditItem />
                 </ProtectRoute>
               } />
+              
+              {/* <Route path="/test-component" element={<TestComponent />} /> */}
+            </Route> 
+            <Route element= {<WithDasboardNavNoFooter />}>
               <Route path="/profile" element={
                 <ProtectRoute>
                   <Profile />
                 </ProtectRoute>
+              }/>
+               <Route path="/my-items" element={
+                <ProtectRoute>
+                  <MyItems />
+                </ProtectRoute>
               } />
-              {/* <Route path="/test-component" element={<TestComponent />} /> */}
-            </Route> 
+                <Route path="/order-history" element={
+                <ProtectRoute>
+                  <OrderHistory />
+                </ProtectRoute>
+              } 
+              />
+              <Route path="/cart" element={
+                <ProtectRoute>
+                  <Cart />
+                </ProtectRoute>
+              } 
+              />
+                <Route path="/wishlist" element={
+                <ProtectRoute>
+                  <WishList />
+                </ProtectRoute>
+              } />
+            </Route>
           </Routes>
       </Router>
   );

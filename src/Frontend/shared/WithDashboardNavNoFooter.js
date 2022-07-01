@@ -234,8 +234,6 @@ const WithDashboardNav = (props) => {
         </Navbar>
         
         <Outlet />
-
-        <Footer />
     </>
   )
 }
