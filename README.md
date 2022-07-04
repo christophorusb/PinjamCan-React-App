@@ -20,7 +20,7 @@ So after cloning the project, navigate to the working directory, open the code e
 ```
 npm install
 ```
-##Email me for .env file
+## Email me for .env file
 benedittochristophorus@gmail.com
 
 ## Optional : If you somehow cannot use yarn commands in terminal due to PSSecurityException Error
