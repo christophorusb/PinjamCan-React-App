@@ -33,8 +33,6 @@ const Cart = () => {
 
   let auth_token = localStorage.getItem('token')
 
-  console.log(cartItems)
-  console.log(checkedOutItems)
   // if(!isCartLoading){
   //   console.log(cartItems.CartItems)
   // }
@@ -230,7 +228,7 @@ const Cart = () => {
       }
     }
   }, [checkedOutItems])
-
+  console.log(process.env.REACT_APP_IS_IMAGE_FROM_CLOUDINARY)
   //side-effect for calculating total of the total of the total of the total price >:(
   //depends on deliveryTotalPrice state change
   useEffect(() => {
@@ -287,12 +285,23 @@ const Cart = () => {
                           <Row key={uuidv4()} className="mb-3 border-bottom pb-3">
                             <Row>
                               <Col>
+                              {
+                                process.env.REACT_APP_IS_IMAGE_FROM_CLOUDINARY === 'true' ? 
+                                  <Image 
+                                    src={item.ItemDetail.MainItemPictureURL.secure_url}
+                                    thumbnail={true}
+                                    height={100}
+                                    width={100}
+                                  />
+                                  :
                                   <Image 
                                     src={item.ItemDetail.MainItemPictureLocalPath}
                                     thumbnail={true}
                                     height={100}
                                     width={100}
                                   />
+                              }
+                                  
                               </Col>
                               <Col>
                                 <div className="primary-font-color"><strong>{item.ItemDetail.ItemName}</strong></div>

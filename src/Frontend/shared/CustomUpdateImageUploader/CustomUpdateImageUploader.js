@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Upload } from 'antd';
-import { useFormContext, Controller } from 'react-hook-form'
+import { useFormContext, Controller, useWatch } from 'react-hook-form'
 import { ErrorMessage } from '@hookform/error-message';
 import ImgCrop from 'antd-img-crop';
 import Form from 'react-bootstrap/Form'
@@ -22,7 +22,8 @@ import Skeleton from '@mui/material/Skeleton';
 
 const CustomUpdateImageUploader = (props) => {
   //    console.log('image uploader component called')
-  
+  // console.log('Uploader Called')
+  // console.log(props)
   const [fileList, setFileList] = useState([]);
   //const URL = 'http://localhost:5000/api/test-request/image-upload';
   //    console.log('item picture state in child')
@@ -30,14 +31,19 @@ const CustomUpdateImageUploader = (props) => {
   //    useEffect(() => {
   //     setItemPicturesToParent(fileList)   
   //    }, [fileList])
-
+    //console.log(props)
     const { 
       register,
       control,
       handleSubmit, 
       formState: { errors }, 
+      setValue,
+      getValues,
+      reset,
     } 
     = useFormContext();
+
+    //useWatch({name: props.inputName})
 
   const readFile = async (file) =>{
     console.log('read file called')
@@ -89,22 +95,28 @@ const CustomUpdateImageUploader = (props) => {
   }
 
   useEffect(() => {
-    console.log(props.localPaths)
-    if(props.localPaths.length !== 0){
-      setFileList(props.localPaths)
+    console.log('useEffect called')
+    if(props.existingImgs.length !== 0){
+      setFileList(props.existingImgs)
+      setValue(props.inputName, props.existingImgs )
     }
-  },[props.localPaths])
+  },[props.existingImgs])
 
-  if(props.localPaths.length === 0 || fileList.length === 0){
+  if(Object.keys(props).length === 0 || props.existingImgs.length === 0){
+    //console.log(props.existingImgs)
     return <Skeleton variant="rectangular" width={1366} height={80} />
   }
   else{
-    //console.log(fileList)
+    // console.log(props.existingImgs)
+    // console.log('GETVALUES INSIDE UPLOADER COMPONENT')
+    // console.log(getValues())
+    // console.log('FILELIST INSIDE UPLOADER COMPONENT')
+    // console.log(fileList)
     return(
       <Controller 
           control={control}
           name={props.inputName}
-          defaultValue={fileList}
+          defaultValue={props.existingImgs}
           render={({
               field,
               formState: { errors },
@@ -120,6 +132,7 @@ const CustomUpdateImageUploader = (props) => {
                   <Upload
                     progress
                     listType="picture-card"
+                    defaultFileList={props.existingImgs}
                     fileList={fileList}
                     onPreview={onPreview}
                     beforeUpload = {(file) => beforeUpload(file, field)}

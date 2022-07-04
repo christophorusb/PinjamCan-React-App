@@ -11,6 +11,7 @@ import ItemCard from '../../shared/ItemCard/ItemCard';
 import Skeleton from '@mui/material/Skeleton';
 import { v4 as uuidv4 } from 'uuid';
 import ItemsDisplayed from '../../shared/ItemsDisplayed/ItemsDisplayed'
+import ItemsDisplayed_ImgCloudinary from '../../shared/ItemsDisplayed/ItemsDisplayed_ImgCloudinary'
 import axios from 'axios'
 import '../../../customGeneralStyle.css'
 
@@ -100,6 +101,8 @@ const ItemsByCategory = () => {
       return breadCrumbKey.current
     }
 
+    console.log(process.env.IS_IMAGE_FROM_CLOUDINARY)
+
     //side effect for filtering the items
     //hits everytime filter options change
     useEffect(() => {
@@ -162,10 +165,16 @@ const ItemsByCategory = () => {
                  </Row>
                  :
                 <ItemsDisplayed 
-                  itemsList={itemsByCategoryResponse} 
+                  itemsList={itemsByCategoryResponse}
+                  //IsImgFromCloudinary = { false } 
                   category={thisItemsCategory}
                   responseStatus={itemsByCategoryResponseStatus.current} 
                 />
+                // <ItemsDisplayed_ImgCloudinary
+                //   itemsList={itemsByCategoryResponse}
+                //   category={thisItemsCategory}
+                //   responseStatus={itemsByCategoryResponseStatus.current}
+                // />
               } 
             </Col>
           </Row>

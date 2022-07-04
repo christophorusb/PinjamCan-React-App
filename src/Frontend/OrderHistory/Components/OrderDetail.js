@@ -231,12 +231,22 @@ const OrderDetail = (props) => {
                     orderDetails.map(orderedItem => (
                         <Row key={orderedItem._id} className="border-top pt-3 pb-3 border-bottom">
                             <Col>
-                                <Image 
-                                    src={orderedItem.ItemDetail.MainItemPictureLocalPath}
-                                    thumbnail={true}
-                                    height={100}
-                                    width={100}
-                                />
+                                {
+                                    process.env.REACT_APP_IS_IMAGE_FROM_CLOUDINARY === 'true' ?
+                                    <Image 
+                                        src={orderedItem.ItemDetail.MainItemPictureURL.secure_url}
+                                        thumbnail={true}
+                                        height={100}
+                                        width={100}
+                                    />
+                                    :
+                                    <Image 
+                                        src={orderedItem.ItemDetail.MainItemPictureLocalPath}
+                                        thumbnail={true}
+                                        height={100}
+                                        width={100}
+                                    />
+                                }
                             </Col>
 
                             <Col>

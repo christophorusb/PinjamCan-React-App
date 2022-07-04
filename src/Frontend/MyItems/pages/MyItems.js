@@ -22,8 +22,6 @@ const MyItems = () => {
     const [ongoingOrdersModalShow, setOngoingOrdersModalShow] = useState(false)
     const [finishedOrdersModalShow, setFinishedOrdersModalShow] = useState(false)
 
-    console.log(itemsByUserId)
-
     const deleteItem = (itemId) => { 
         axios({
             method: 'DELETE',
@@ -53,7 +51,6 @@ const MyItems = () => {
     }
 
     const handleDisableDeleteButton = (item) => {
-        console.log(item.IncomingOrders)
         if(item.OngoingOrders.length === 0 && item.IncomingOrders.length === 0){
             return (
                 <Button onClick = {() => deleteItemConfirmation(item._id)} className="btn-sm me-2 tertiary-button pe-3 ps-3">
@@ -146,12 +143,23 @@ const MyItems = () => {
                         </div>
                     </Row>
                     <Col sm={2}>
-                        <Image 
-                            src={item.MainItemPictureLocalPath}
-                            thumbnail={true}
-                            height={100}
-                            width={100}
-                        />
+                        {
+                            process.env.REACT_APP_IS_IMAGE_FROM_CLOUDINARY === 'true' ? 
+                            <Image 
+                                src={item.MainItemPictureURL.secure_url}
+                                thumbnail={true}
+                                height={100}
+                                width={100}
+                            />
+                            :
+                            <Image 
+                                src={item.MainItemPictureLocalPath}
+                                thumbnail={true}
+                                height={100}
+                                width={100}
+                            />
+                        }
+                        
                     </Col>
                     <Col>
                         <Row>

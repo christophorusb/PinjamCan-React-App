@@ -7,8 +7,7 @@ import { AiFillStar } from 'react-icons/ai'
 
 const ItemCard = (props) => {
 
-    console.log(props)
-    
+    console.log(process.env.REACT_APP_IS_IMAGE_FROM_CLOUDINARY)
     const getAverageItemRating = (ratings) => {
         console.log(ratings)
         let sum = 0
@@ -20,10 +19,20 @@ const ItemCard = (props) => {
         avg = avg.toString()
         return avg
     }
+    if(props === undefined){
+        return (
+            <Skeleton variant="rectangular" height={250}/>
+        )
+    }
   return (
     <Col>
         <Card className="item-card shadow">
-            <Card.Img className="card-img" variant="top" src={props.MainItemPictureLocalPath} />
+            {
+                process.env.REACT_APP_IS_IMAGE_FROM_CLOUDINARY === 'true' ? 
+                <Card.Img className="card-img" variant="top" src={props.MainItemPictureURL === undefined ? '' : props.MainItemPictureURL.secure_url} />
+                :
+                <Card.Img className="card-img" variant="top" src={props.MainItemPictureLocalPath} />
+            }
             <Card.Body style={{color: 'black'}}>
                 <Card.Title className="primary-font-color"
                     style={{fontSize:'0.9rem', 

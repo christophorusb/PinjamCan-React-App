@@ -23,6 +23,7 @@ import RegisterSuccess from './Frontend/Success/pages/RegisterSuccess'
 import AuthHome from './Frontend/AuthHome/pages/AuthHome'
 import ItemsByCategory from './Frontend/ItemsByCategory/pages/ItemsByCategory'
 import ProductListing from './Frontend/ProductListing/pages/ProductListing';
+import ProductListing_CloudinaryActive from './Frontend/ProductListing/pages/ProductListing_CloudinaryActive';
 // import TestComponent from './Frontend/TESTING COMPONENT/TestComponent'
 import ItemDetail from './Frontend/ItemDetail/pages/ItemDetail';
 import SearchedItems from './Frontend/SearchedItems/pages/SearchedItems';
@@ -34,6 +35,7 @@ import OrderHistory from './Frontend/OrderHistory/Pages/OrderHistory';
 import MyItems from './Frontend/MyItems/pages/MyItems';
 import Profile from './Frontend/Profile/pages/Profile';
 import EditItem from './Frontend/MyItems/pages/EditItem';
+import EditItem_CloudinaryActive from './Frontend/MyItems/pages/EditItem_CloudinaryActive';
 //import { useSelector, useDispatch } from 'react-redux'
 import './customGeneralStyle.css'
 import 'antd/dist/antd.min.css'
@@ -71,12 +73,22 @@ const App = () => {
                   <ItemsByCategory />
               } 
               /> 
-              <Route path="/product-listing" element={
-                <ProtectRoute>
-                  <ProductListing />
-                </ProtectRoute>
+              {
+                process.env.REACT_APP_IS_IMAGE_FROM_CLOUDINARY === 'true' ?
+                  <Route path="/product-listing" element={
+                    <ProtectRoute>
+                      <ProductListing_CloudinaryActive />
+                    </ProtectRoute>
+                  }
+                  />
+                  :
+                  <Route path="/product-listing" element={
+                    <ProtectRoute>
+                      <ProductListing />
+                    </ProtectRoute>
+                  }
+                  />
               }
-              />
               <Route path="/home/item/:itemId" element={
                 <ItemDetail />
               }
@@ -88,12 +100,6 @@ const App = () => {
               <Route path="/payment-notification" element={
                 <PaymentNotification />
               } />
-              <Route path="/my-items/edit/:itemId" element={
-                <ProtectRoute>
-                  <EditItem />
-                </ProtectRoute>
-              } />
-              
               {/* <Route path="/test-component" element={<TestComponent />} /> */}
             </Route> 
             <Route element= {<WithDasboardNavNoFooter />}>
@@ -124,6 +130,22 @@ const App = () => {
                   <WishList />
                 </ProtectRoute>
               } />
+               {
+                process.env.REACT_APP_IS_IMAGE_FROM_CLOUDINARY === 'true' ?
+                  <Route path="/my-items/edit/:itemId" element={
+                    <ProtectRoute>
+                      <EditItem_CloudinaryActive />
+                    </ProtectRoute>
+                  } 
+                  />
+                  :
+                  <Route path="/my-items/edit/:itemId" element={
+                    <ProtectRoute>
+                      <EditItem />
+                    </ProtectRoute>
+                  } 
+                  />
+              }
             </Route>
           </Routes>
       </Router>

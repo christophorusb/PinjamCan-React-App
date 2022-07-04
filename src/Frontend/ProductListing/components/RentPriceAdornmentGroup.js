@@ -28,6 +28,7 @@ const RentPriceAdornmentGroup = (props) => {
                 inputType="text"
                 addStyle={customStyle}
                 secondaryType="price"
+                inputValidation={props.inputValidation}
             />
             <CustomFormInputWithAdornment
                 inputId="product-rent-per-month"
@@ -37,6 +38,7 @@ const RentPriceAdornmentGroup = (props) => {
                 inputType="text"
                 addStyle={customStyle}
                 secondaryType="price"
+                inputValidation={props.inputValidation}
             />
         </div>
     </div>

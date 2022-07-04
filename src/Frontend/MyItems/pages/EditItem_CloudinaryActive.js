@@ -10,11 +10,11 @@ import CustomUpdateFormMultipleSelect from '../../shared/CustomUpdateFormMultipl
 import CustomUpdateImageUploader from '../../shared/CustomUpdateImageUploader/CustomUpdateImageUploader'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
-import { Modal as AntdModal } from 'antd'
-import { v4 as uuidv4 } from 'uuid'
+import { Modal as AntdModal, message } from 'antd'
+import { nanoid } from 'nanoid'
 import axios from 'axios'
 
-const EditItem = () => {
+const EditItem_CloudinaryActive = () => {
     const { itemId } = useParams()
     const [item, setItem] = useState({})
     const [itemCategories, setItemCategories] = useState([])
@@ -75,18 +75,30 @@ const EditItem = () => {
       }
 
     const handleUnnecessaryFromAntD = (itemPictures) => {
-        let index = itemPictures.findIndex(picture => !picture.uid.includes('update'))
-        //console.log(index)
-        itemPictures.splice(index, 1)
-        return itemPictures
+      //console.log('HANDLE FROM ANTD')
+      let parsedArray = JSON.parse(itemPictures)
+      //console.log(JSON.parse(itemPictures))
+     // console.log(parsedArray)
+      let index = parsedArray.findIndex(picture => !picture.uid.includes('update'))
+     // console.log(index)
+      if(index !== -1){ //found
+        parsedArray.splice(index, 1)
+       // console.log(parsedArray)
+
+        return parsedArray
+      }
+      else{
+        return JSON.parse(itemPictures)
+      }
     }
 
     const handleNewAndExistingImgSeparation = (itemPictures) => {
+      //console.log(itemPictures)
         let existingImgs = []
         let newImgs = []
 
         itemPictures.forEach(picture => {
-            if(picture.uid.includes('origin')){
+            if(picture.uid.includes('update_origin')){
                 existingImgs.push(picture.url)
             }
             if(picture.uid.includes('base64')){
@@ -100,85 +112,90 @@ const EditItem = () => {
         return separated
     }
 
-    const handleb64toBlob = async (URLs) =>{
-        return Promise.all(URLs.map(url => fetch(url)))
-                .then(responses => Promise.all(responses.map(response => response.blob())))
-    }
-
-    const handleBlobToFile = (blobArray, fileName) => {
-        let name = fileName.split(/[\s]+/).join("-");
-        let fileArray = []
-        blobArray.forEach((blob, index) => {
-            fileArray.push(new File([blob], name + '-' + uuidv4() + '.jpg', { type: 'image/jpeg' }))
-        })
-
-        return fileArray
-    }
-
-    const handleFetchImgFromPublicFolder = async (paths, fileName) => {
-        const response = await Promise.all(paths.map(path => fetch(path)))
-        const blobs = await Promise.all(response.map(res => res.blob()))
-        const files = handleBlobToFile(blobs, fileName)
-        
-        return files
-    }
-
-    const handleConversions = async (separated, data) => {
-        let converted = []
-        //console.log(separated)
-        if(separated.newImages.length > 0){ //base64 URL
-            const toBlobs = await handleb64toBlob(separated.newImages)
-            const toFiles = handleBlobToFile(toBlobs, data.itemName)
-            converted = [...converted, ...toFiles]
-        } 
-        if(separated.existingImages.length > 0){ //URL to img path
-            const toFiles = await handleFetchImgFromPublicFolder(separated.existingImages, data.itemName)
-            console.log(toFiles)
-            converted = [...converted, ...toFiles]
-        }
-        return converted
-    }
-
-    const handleItemUpdate = async (data, e) => {
+    const handleItemUpdate = (data, e) => {
         e.preventDefault()
-        console.log(e)
-        console.log(data)
-        const handledPictureArray = handleUnnecessaryFromAntD(data.itemPictures)
+        console.log('SUBMITTED DATA')
+        console.log(JSON.stringify(data.itemPictures))
+        let promisedPictures = JSON.stringify(data.itemPictures)
+
+        const hide = message.loading({ content: <strong className="secondary-font-color">Sedang mengupload...</strong>, duration: 0})
+        const handledPictureArray =  handleUnnecessaryFromAntD(promisedPictures)
+        //console.log(handledPictureArray)
+
         const newAndExistingImgSeparated = handleNewAndExistingImgSeparation(handledPictureArray)
-        const convertedIntoFiles = await handleConversions(newAndExistingImgSeparated, data)
+        //console.log(newAndExistingImgSeparated)
 
-        let newData = data
-        delete newData.itemPictures
+        const existingImgsOriginal = item.ItemPictureURLs
+        //console.log(item.ItemPictureURLs)
+        let newData
+        let imagesToBeDeleted = {}
+        let publicIdsToBeDeleted = []
+        let URLsToBeDeleted = []
 
-        let formData = new FormData()
-        formData.append('itemName', data.itemName)
-        formData.append('itemDescription', data.itemDescription)
-        formData.append('itemCategory', data.itemCategory)
-        formData.append('itemDeliveryOptions', data.deliveryOptions)
-        formData.append('itemMinimumRentDuration', data.itemMinimumRentDuration)
-        formData.append('itemWeight', data.itemWeight)
-        formData.append('itemRentPerDay', data.productRentPerDay)
-        formData.append('itemRentPerWeek', data.productRentPerWeek)
-        formData.append('itemRentPerMonth', data.productRentPerMonth)
-        
-        convertedIntoFiles.forEach(file => {
-            formData.append('itemPictures', file)
-        })
-
-        for(let [key, val] of formData){
-            console.log(`${key}: ${val}`)
+        for(let i = 0; i < existingImgsOriginal.length; i++){
+          if(newAndExistingImgSeparated.existingImages.includes(existingImgsOriginal[i].url) === false){
+            publicIdsToBeDeleted.push('image_user_uploads/' + existingImgsOriginal[i].name)
+            URLsToBeDeleted.push(existingImgsOriginal[i].url)
+          }
         }
+        imagesToBeDeleted = {
+          public_ids: publicIdsToBeDeleted,
+          URLs: URLsToBeDeleted
+        }
+        // console.log('IMAGES TO BE DELETED')
+        console.log(imagesToBeDeleted)
+ 
+        let thisData = data
+        delete thisData.itemPictures
+
+        let itemPictures = newAndExistingImgSeparated.newImages.length !== 0 ? newAndExistingImgSeparated.newImages : null
+        let itemPictures_nameAdded = []
+
+        if(itemPictures !== null){
+            itemPictures.forEach(picture => {
+              const id = nanoid().replaceAll('-', '_')
+              const name = data.itemName.replaceAll(' ', '_') + '-' + id
+              const addName = {
+                img_base64: picture,
+                img_name: name
+              }
+
+              itemPictures_nameAdded.push(addName)
+            })
+        }
+
+        if(itemPictures_nameAdded.length !== 0){
+          newData = { ...thisData, itemPictures: itemPictures_nameAdded, }
+          if(Object.keys(imagesToBeDeleted).length !== 0){
+            newData.imagesToBeDeleted = imagesToBeDeleted
+          }
+          else{
+            newData.imagesToBeDeleted = null
+          }
+        }
+        else{
+          newData = { ...thisData, itemPictures: null, }
+          if(Object.keys(imagesToBeDeleted).length !== 0){
+            newData.imagesToBeDeleted = imagesToBeDeleted
+          }
+          else{
+            newData.imagesToBeDeleted = null
+          }
+        }
+
+        
+        console.log(newData)
 
         axios({
             method: 'PUT',
-            url: `http://localhost:5000/api/items/image-local${itemId}`,
-            data: formData,
+            url: `http://localhost:5000/api/items/image-cloudinary/${itemId}`,
+            data: newData,
             headers: {
-                'Content-Type': 'multipart/form-data',
+                'Content-Type': 'application/json',
                 'Authorization': localStorage.getItem('token')
             }
         }).then(res => {
-            console.log(res)
+            hide()
             if(res.status === 200){
                 AntdModal.success({
                     title: 'Barang berhasil diperbarui!',
@@ -208,19 +225,19 @@ const EditItem = () => {
         }))).then(
                 axios.spread((item, itemCategories, deliveryOptions) => {
                     let fileList = []
-                    item.data.dataResponse.ItemPictureLocalPaths.forEach(path => {
+                    item.data.dataResponse.ItemPictureURLs.forEach(URL => {
                         fileList.push(
                             {
-                                uid: 'update-origin-'+uuidv4(),
-                                name: path.split('/').pop(),
+                                uid: 'update_origin' + '-' + nanoid().replaceAll('-', '_'),
+                                name: URL.secure_url.split('/').pop().split('.')[0],
                                 status: 'done',
-                                url: path
+                                url: URL.secure_url
                             }
                         )
                     })
                     const updatedItemInfo = {
                         ...item.data.dataResponse,
-                        ItemPictureLocalPaths: fileList,
+                        ItemPictureURLs: fileList,
                     }
                     setItem(updatedItemInfo)
                     setItemCategories(itemCategories.data)
@@ -235,25 +252,23 @@ const EditItem = () => {
         })
     }, [])
 
-   
-
     if(areURLsFetched === false){
         console.log(areURLsFetched)
         return <CustomCircularLoading />
     }
     else{
-        // console.log(item)
-        // console.log(Object.keys(item).length === 0 ? '' : item.dataResponse.ItemCategory)
+      //console.log(item)
         return (
             <Container className="pb-5">
                 <h3 className="primary-font-color">Edit Barang</h3>
                 <FormProvider {...methods}>
-                  <Form encType='multipart/form-data' onSubmit = {methods.handleSubmit(handleItemUpdate, handleError)}>
+                  <Form onSubmit = {methods.handleSubmit(handleItemUpdate, handleError)}>
                     <div className="image-listing-upload-wrapper">
                       {/* uncontrolled by React Hook Form. */}
                       <CustomUpdateImageUploader 
                         inputName="itemPictures" 
-                        localPaths={Object.keys(item).length === 0 ? [] : item.ItemPictureLocalPaths}
+                        existingImgs={Object.keys(item).length === 0 ? [] : item.ItemPictureURLs}
+                        //existingImgs={item.ItemPictureURLs}
                       />
                     </div>
         
@@ -319,7 +334,7 @@ const EditItem = () => {
                       <CustomUpdateFormMultipleSelect
                         selectOptions={deliveryOptions}
                         selectLabel="Opsi Pengiriman Barang"
-                        selectName="deliveryOptions"
+                        selectName="itemDeliveryOptions"
                         selectValidation={productListingValidations.deliveryOptions}
                         existingValues={Object.keys(item).length === 0 ? 'NONE' : item.ItemDeliveryOptions}
                       /> 
@@ -334,4 +349,4 @@ const EditItem = () => {
     }
 }
 
-export default EditItem
+export default EditItem_CloudinaryActive

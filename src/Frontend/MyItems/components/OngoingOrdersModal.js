@@ -117,7 +117,7 @@ const OngoingOrdersModal = (props) => {
             if(getDaysBeforeStartDate(order.ItemBorrowDate[0]) > 1){
                 return (
                     <div className="d-flex justify-content-end full-width">
-                        <Button onClick={() => handleOnDeliveryOrder(order._id)} className="btn-sm tertiary-button ps-5 pe-5" disabled>Kirim Barang</Button>
+                        <Button onClick={() => handleOnDeliveryOrder(order._id)} className="btn-sm tertiary-button ps-5 pe-5" >Kirim Barang</Button>
                     </div>
                 )
             }

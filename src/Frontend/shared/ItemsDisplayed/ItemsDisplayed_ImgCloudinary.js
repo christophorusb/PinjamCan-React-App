@@ -47,7 +47,6 @@ const ItemsDisplayed = (props) => {
             <WishListEmpty />
         )
     }
-    
     return (
         <Row sm="2" md='2' lg='4' xl='4' xxl='5' className="g-4 pb-5" >
             {
@@ -59,15 +58,14 @@ const ItemsDisplayed = (props) => {
                         (
                             <div className="p-3 border" style={{backgroundColor: '#f5f5f5', borderRadius: '10px 10px 10px 10px'}}>
                                 <Link to={`/home/item/${item._id}`}>
-                                        <ItemCard 
-                                            MainItemPictureLocalPath={item.MainItemPictureLocalPath}
-                                            MainItemPictureURL={item.MainItemPictureURL}
-                                            ItemName={item.ItemName} 
-                                            ItemPriceDailyMinimum={item.ItemPriceDailyMinimum}
-                                            ItemRatings={item.ItemRatings}
-                                            ItemId={item._id}
-                                            isWishList={props.isWishList}
-                                        />
+                                    <ItemCard 
+                                        MainItemPictureURL={item.MainItemPictureURL} 
+                                        ItemName={item.ItemName} 
+                                        ItemPriceDailyMinimum={item.ItemPriceDailyMinimum}
+                                        ItemRatings={item.ItemRatings}
+                                        ItemId={item._id}
+                                        isWishList={props.isWishList}
+                                    />
                                 </Link>
                                 <div className="d-flex justify-content-center mt-4">
                                     <Button className="btn-sm  btn-danger" onClick={() => handleDeleteItemFromWishList(item._id)}>
@@ -79,13 +77,12 @@ const ItemsDisplayed = (props) => {
                         :
                         (
                             <Link to={localStorage.getItem('token') ? `/home/item/${item._id}` : `/item/${item._id}`}>
-                                        <ItemCard 
-                                            MainItemPictureURL={item.MainItemPictureURL} 
-                                            MainItemPictureLocalPath={item.MainItemPictureLocalPath} 
-                                            ItemName={item.ItemName} 
-                                            ItemPriceDailyMinimum={item.ItemPriceDailyMinimum}
-                                            ItemRatings={item.ItemRatings}
-                                        />
+                                <ItemCard 
+                                    MainItemPictureLocalPath={item.MainItemPictureLocalPath} 
+                                    ItemName={item.ItemName} 
+                                    ItemPriceDailyMinimum={item.ItemPriceDailyMinimum}
+                                    ItemRatings={item.ItemRatings}
+                                />
                             </Link >
                         )
                     }
