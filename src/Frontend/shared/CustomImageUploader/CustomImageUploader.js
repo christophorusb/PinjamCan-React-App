@@ -23,7 +23,7 @@ import { v4 as uuidv4 } from 'uuid'
 const CustomImageUploader = (props) => {
 //   console.log('image uploader component called')
   const [fileList, setFileList] = useState([]);
-  console.log(fileList)
+  //console.log(fileList)
   //const URL = 'http://localhost:5000/api/test-request/image-upload';
 //   console.log('item picture state in child')
   //console.log(fileList)

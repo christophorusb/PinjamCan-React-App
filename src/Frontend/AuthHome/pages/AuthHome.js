@@ -82,7 +82,7 @@ const AuthHome = () => {
         
         <div className="position-relative" style={{marginTop: '100px'}}>
           <p className="primary-font-color" style={{textAlign:'left', marginBottom:'60px', marginLeft:'10px', fontSize:'1.5rem'}}>
-            <strong>Mungkin kamu tertarik</strong>
+            <strong>Ingin coba hobi baru, mungkin?</strong>
           </p>
           {isLoading === true && 
             <CustomCircularLoading />
@@ -106,6 +106,7 @@ const AuthHome = () => {
                     <Link key={item._id} to={localStorage.getItem('token') ? `/home/item/${item._id}` : `/item/${item._id}`}>
                       <ItemCard 
                           MainItemPictureLocalPath={item.MainItemPictureLocalPath} 
+                          MainItemPictureURL = {item.MainItemPictureURL}
                           ItemName={item.ItemName} 
                           ItemPriceDailyMinimum={item.ItemPriceDailyMinimum}
                           ItemRatings={item.ItemRatings}
@@ -144,6 +145,7 @@ const AuthHome = () => {
                     <Link key={item._id} to={localStorage.getItem('token') ? `/home/item/${item._id}` : `/item/${item._id}`}>
                       <ItemCard 
                           MainItemPictureLocalPath={item.MainItemPictureLocalPath} 
+                          MainItemPictureURL = {item.MainItemPictureURL}
                           ItemName={item.ItemName} 
                           ItemPriceDailyMinimum={item.ItemPriceDailyMinimum}
                           ItemRatings={item.ItemRatings}
