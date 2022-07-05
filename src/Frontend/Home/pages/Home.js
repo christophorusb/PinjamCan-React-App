@@ -6,7 +6,7 @@ import SecondaryHomeImageAsset from '../../Home/components/SecondaryHomeImageAss
 import ExploreCategory from '../components/ExploreCategory';
 import BenefitsCard from '../components/BenefitsCard';
 import { useSelector, useDispatch } from 'react-redux'
-import {  useNavigate } from 'react-router-dom'
+import {  useNavigate, Link } from 'react-router-dom'
 import Button from 'react-bootstrap/Button';
 import './Home.css';
 
@@ -81,7 +81,9 @@ const Home = () =>{
                     </p>
                 </div>
                 <div className="mt-5">
-                    <Button className="list-item-btn tertiary-button">Daftarkan barangmu sekarang</Button>
+                    <Link to="/login">
+                        <Button className="list-item-btn tertiary-button">Daftarkan barangmu sekarang</Button>
+                    </Link>
                 </div>
             </div>
 

@@ -162,9 +162,6 @@ const WithGuestNav = () => {
                     
                     <div className="nav-links-wrapper d-flex">
                         <div>
-                            <Nav.Link href="#home">Cara Kerja</Nav.Link>
-                        </div>
-                        <div>
                             <Link to="/login">
                                 <Button variant="outline-dark" className="login-button"> 
                                     Masuk 

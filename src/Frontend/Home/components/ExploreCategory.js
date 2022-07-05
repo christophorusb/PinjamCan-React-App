@@ -35,7 +35,7 @@ const ExploreCategory = () => {
     }
   return (
     <div className="category-wrapper">
-        <p className="category-sub-title">Jelajahi kategori kami</p>
+        <p className="text-center primary-font-color mb-5" style={{fontSize: '2.5rem'}}><strong>Jelajahi kategori kami </strong></p>
         <Row xs="2" sm="3" md='4' lg='5' xl='6' xxl='6' className="g-5">
              {
                itemCategoriesResponse.dataResponse.map(itemCategory => (
