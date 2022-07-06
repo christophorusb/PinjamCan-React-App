@@ -71,7 +71,7 @@ const WithGuestNav = () => {
     }
 
     useEffect(() => {
-        const URL = 'http://localhost:5000/api/items'
+        const URL = `${process.env.REACT_APP_URL_TO_BACKEND}/api/items`
         axios.get(URL)
         .then(res => setFetchedItemsData(res.data.dataResponse))
         .then(() => setIsItemFetched(true))

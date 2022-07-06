@@ -18,7 +18,7 @@ const ItemsDisplayed = (props) => {
         console.log(itemId)
         axios({
             method: 'DELETE',
-            url: `http://localhost:5000/api/wishlist/${itemId}`,
+            url: `${process.env.REACT_APP_URL_TO_BACKEND}/api/wishlist/${itemId}`,
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': localStorage.getItem('token')
