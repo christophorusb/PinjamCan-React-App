@@ -82,7 +82,7 @@ const CreateNewPassword = () => {
 
     //side effect for checking token
     useEffect(() => {
-        const resetTokenUrl = `http://localhost:5000/api/users/reset-password/verify-reset-token/${resetToken}`
+        const resetTokenUrl = `${process.env.REACT_APP_URL_TO_BACKEND}/api/users/reset-password/verify-reset-token/${resetToken}`
         axios.get(resetTokenUrl).then(res => {
             console.log(res)
             setTokenPayload(res.data.payloadResponse)
