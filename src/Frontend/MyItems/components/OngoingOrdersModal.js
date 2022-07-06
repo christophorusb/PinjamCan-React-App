@@ -59,7 +59,7 @@ const OngoingOrdersModal = (props) => {
     const handleOwnerItemArrived = (orderId) => {
         axios({
             method: 'PUT',
-            url: `http://localhost:5000/api/order/owner-item-arrived/${orderId}`,
+            url: `${process.env.REACT_APP_URL_TO_BACKEND}/api/order/owner-item-arrived/${orderId}`,
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': localStorage.getItem('token')

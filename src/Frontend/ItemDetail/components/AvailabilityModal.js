@@ -70,7 +70,7 @@ function AvailabilityModal(props) {
           let modifiedItemBorrowDate = [...momentDateObj, momentDateObj[1].clone().add(1, 'days')]
           axios({
             method: 'post',
-            url: `http://localhost:5000/api/cart/${props.ItemId}`,
+            url: `${process.env.REACT_APP_URL_TO_BACKEND}/api/cart/${props.ItemId}`,
             headers: {
               'Authorization': auth_token,
               'Content-Type': 'application/json',

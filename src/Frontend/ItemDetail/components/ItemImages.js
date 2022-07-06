@@ -20,8 +20,8 @@ function ItemImages(props) {
                 let images = [];
                 props.detail.ItemPictureLocalPaths && props.detail.ItemPictureLocalPaths.map(item => {
                     images.push({
-                        original: `http://localhost:3000/${item}`,
-                        thumbnail: `http://localhost:3000/${item}`
+                        original: `${process.env.REACT_APP_URL_TO_FRONTEND}/${item}`,
+                        thumbnail: `${process.env.REACT_APP_URL_TO_FRONTEND}/${item}`
                     })
                 })
                 setImages(images)

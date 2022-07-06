@@ -78,7 +78,7 @@ const IncomingOrdersModal = (props) => {
         console.log('order highkey rejected')
         axios({
             method: 'PUT',
-            url: `http://localhost:5000/api/order/reject/${orderId}`,
+            url: `${process.env.REACT_APP_URL_TO_BACKEND}/api/order/reject/${orderId}`,
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': localStorage.getItem('token')
