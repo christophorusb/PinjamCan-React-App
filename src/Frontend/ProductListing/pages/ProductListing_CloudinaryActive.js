@@ -156,8 +156,8 @@ const ProductListing_CloudinaryActive = () => {
   useEffect(() => {
 
     const filterSelections_api_URL = [
-      'http://localhost:5000/api/items/item-categories',
-      'http://localhost:5000/api/delivery-options'
+      `${process.env.REACT_APP_URL_TO_BACKEND}/api/items/item-categories`,
+      `${process.env.REACT_APP_URL_TO_BACKEND}/api/delivery-options`
     ]
 
     console.log('fetching category and delivery option list')
