@@ -21,7 +21,7 @@ const AuthHome = () => {
   // console.log(location)
 
   useEffect(()=>{
-    const url = 'http://localhost:5000/api/items/home'
+    const url = `${process.env.REACT_APP_URL_TO_BACKEND}/api/items/home`
     axios.get(url)
     .then(res => {
       console.log(res.data.dataResponse)

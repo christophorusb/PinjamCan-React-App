@@ -35,7 +35,7 @@ const ForgotPassword = () => {
         console.log(data.userEmail)
         const response = await axios({
             method: 'post',
-            url: 'http://localhost:5000/api/users/reset-password/send-recovery-email',
+            url: `${process.env.REACT_APP_URL_TO_BACKEND}/api/users/reset-password/send-recovery-email`,
             data: {
                 userEmail: data.userEmail
             },

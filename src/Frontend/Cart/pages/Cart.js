@@ -149,7 +149,7 @@ const Cart = () => {
     else{
       axios({
         method: 'post',
-        url: 'http://localhost:5000/api/transaction',
+        url: `${process.env.REACT_APP_URL_TO_BACKEND}/api/transaction`,
         headers: {
           'Content-Type': 'application/json',
           'Authorization': token
@@ -171,7 +171,7 @@ const Cart = () => {
   const handleDeleteItemInCart = (itemId) => {
     axios({
       method: 'put',
-      url: `http://localhost:5000/api/cart/${itemId}`,
+      url: `${process.env.REACT_APP_URL_TO_BACKEND}/api/cart/${itemId}`,
       headers: {
         'Authorization': auth_token,
         'Content-Type': 'application/json'
@@ -184,7 +184,7 @@ const Cart = () => {
   useEffect(() => {
     axios({
       method: 'get',
-      url: `http://localhost:5000/api/cart/${auth_token}`,
+      url: `${process.env.REACT_APP_URL_TO_BACKEND}/api/cart/${auth_token}`,
       headers: {
         'Authorization':auth_token,
         'Content-Type': 'application/json'

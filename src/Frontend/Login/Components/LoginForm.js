@@ -22,7 +22,7 @@ const LoginForm = () => {
     let navigate = useNavigate()
     const loginHandler = async (e) => {
         e.preventDefault()
-        const response = await fetch('http://localhost:5000/api/users/login',{
+        const response = await fetch(`${process.env.REACT_APP_URL_TO_BACKEND}/api/users/login`,{
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -94,7 +94,7 @@ const SearchedItems = () => {
     //hits everytime filter search params options change
     useEffect(() => {
         console.log('inside useEffect for searched items')
-        const URL = `http://localhost:5000/api/items/search/filter/${searchKeyword}`
+        const URL = `${process.env.REACT_APP_URL_TO_BACKEND}/api/items/search/filter/${searchKeyword}`
         setItemsByKeywordLoading(true)
         axios({
             method: 'get',

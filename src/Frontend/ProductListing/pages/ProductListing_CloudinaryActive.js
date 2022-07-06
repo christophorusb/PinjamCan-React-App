@@ -63,7 +63,7 @@ const ProductListing_CloudinaryActive = () => {
 
     axios({
         method: 'post',
-        url: 'http://localhost:5000/api/items/image-cloudinary',
+        url: `${process.env.REACT_APP_URL_TO_BACKEND}/api/items/image-cloudinary`,
         data: newData,
         headers: { 
           "Content-Type": "application/json",

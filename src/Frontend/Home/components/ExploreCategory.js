@@ -16,7 +16,7 @@ const ExploreCategory = () => {
     const [itemCategoriesLoading, setItemCategoriesLoading] = useState(true)
 
     useEffect(()=>{
-        const itemCategoryURL = 'http://localhost:5000/api/items/item-categories'
+        const itemCategoryURL = `${process.env.REACT_APP_URL_TO_BACKEND}/api/items/item-categories`
         axios.get(itemCategoryURL)
         .then(res => {
             setItemCategoriesResponse(res.data)

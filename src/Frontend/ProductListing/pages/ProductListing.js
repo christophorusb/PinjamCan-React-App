@@ -67,7 +67,7 @@ const ProductListing = () => {
 
     let auth_token = localStorage.getItem('token')
 
-    const POST_URL = 'http://localhost:5000/api/items' //POST
+    const POST_URL = `${process.env.REACT_APP_URL_TO_BACKEND}/api/items` //POST
     let formData = new FormData()
     formData.append('itemName', data.itemName)
     formData.append('itemDescription', data.itemDescription)

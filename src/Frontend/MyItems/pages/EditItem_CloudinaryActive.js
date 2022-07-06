@@ -188,7 +188,7 @@ const EditItem_CloudinaryActive = () => {
 
         axios({
             method: 'PUT',
-            url: `http://localhost:5000/api/items/image-cloudinary/${itemId}`,
+            url: `${process.env.REACT_APP_URL_TO_BACKEND}/api/items/image-cloudinary/${itemId}`,
             data: newData,
             headers: {
                 'Content-Type': 'application/json',
@@ -209,9 +209,9 @@ const EditItem_CloudinaryActive = () => {
 
     useEffect(() => {
       const URLs = [
-        `http://localhost:5000/api/items/${itemId}`,
-        'http://localhost:5000/api/items/item-categories',
-        'http://localhost:5000/api/delivery-options'
+        `${process.env.REACT_APP_URL_TO_BACKEND}/api/items/${itemId}`,
+        `${process.env.REACT_APP_URL_TO_BACKEND}/api/items/item-categories`,
+        `${process.env.REACT_APP_URL_TO_BACKEND}/api/delivery-options`
       ]
 
       const fetchData = async () => {

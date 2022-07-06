@@ -87,7 +87,7 @@ const Profile = () => {
             console.log(changedData)
             axios({
                 method: 'PUT',
-                url: 'http://localhost:5000/api/users/profile/edit',
+                url: `${process.env.REACT_APP_URL_TO_BACKEND}/api/users/profile/edit`,
                 data: changedData,
                 headers: {
                     'Authorization': localStorage.getItem('token'),
@@ -153,7 +153,7 @@ const Profile = () => {
     useEffect(() => {
         axios({
             method: 'GET',
-            url: 'http://localhost:5000/api/users/profile',
+            url: `${process.env.REACT_APP_URL_TO_BACKEND}/api/users/profile`,
             headers: {
                 'Authorization': localStorage.getItem('token'),
                 'Content-Type': 'application/json'

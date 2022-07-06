@@ -15,7 +15,7 @@ const OrderHistory = () => {
     useEffect(() => {
         axios({
             method: 'GET',
-            url: 'http://localhost:5000/api/transaction/history',
+            url: `${process.env.REACT_APP_URL_TO_BACKEND}/api/transaction/history`,
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': localStorage.getItem('token')

@@ -25,7 +25,7 @@ const MyItems = () => {
     const deleteItem = (itemId) => { 
         axios({
             method: 'DELETE',
-            url: `http://localhost:5000/api/items/${itemId}`,
+            url: `${process.env.REACT_APP_URL_TO_BACKEND}/api/items/${itemId}`,
             headers: {
                 'Authorization': localStorage.getItem('token'),
                 'Content-Type': 'application/json'
@@ -85,7 +85,7 @@ const MyItems = () => {
     useEffect(() => {
         axios({
             method: 'GET',
-            url: 'http://localhost:5000/api/items/owner',
+            url: `${process.env.REACT_APP_URL_TO_BACKEND}/api/items/owner`,
             headers: {
                 'Authorization': localStorage.getItem('token'),
                 'Content-Type': 'application/json'

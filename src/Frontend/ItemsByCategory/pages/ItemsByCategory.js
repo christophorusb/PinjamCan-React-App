@@ -27,7 +27,7 @@ const ItemsByCategory = () => {
     const [itemsByCategoryResponse, setItemsByCategoryResponse] = useState([])
     const [thisItemsCategory, setThisItemsCategory] = useState('')
     const [itemsByCategoryLoading, setItemsByCategoryLoading] = useState(true)
-    let itemsByCategory_api_URL = `http://localhost:5000/api/items/filter`
+    let itemsByCategory_api_URL = `${process.env.REACT_APP_URL_TO_BACKEND}/api/items/filter`
 
     //console.log(itemsByCategory_api_URL)
     //parse search params object from string into JSON object to be passed to param attribute in axios

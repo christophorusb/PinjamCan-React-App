@@ -35,13 +35,13 @@ const ItemDetail = () => {
     const handleShow = () => setShow(true);
 
     const itemId = useParams()
-    let item_api_URL = `http://localhost:5000/api/items/${itemId.itemId}`
+    let item_api_URL = `${process.env.REACT_APP_URL_TO_BACKEND}/api/items/${itemId.itemId}`
     let itemURL = `/item/${itemId.itemId}`
 
     const handleAddToWishList = () => {
         axios({
             method: 'POST',
-            url: `http://localhost:5000/api/wishlist/${itemId.itemId}`,
+            url: `${process.env.REACT_APP_URL_TO_BACKEND}/api/wishlist/${itemId.itemId}`,
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': localStorage.getItem('token')

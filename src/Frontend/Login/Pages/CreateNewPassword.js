@@ -56,7 +56,7 @@ const CreateNewPassword = () => {
         console.log(tokenPayload)
         axios({
             method: 'post',
-            url: 'http://localhost:5000/api/users/reset-password/create-new-password',
+            url: `${process.env.REACT_APP_URL_TO_BACKEND}/api/users/reset-password/create-new-password`,
             data: {
                 newUserPassword: data.userPassword,
                 userEmail: tokenPayload.userEmail,

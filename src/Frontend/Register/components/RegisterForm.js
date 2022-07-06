@@ -54,7 +54,7 @@ const RegisterForm = () => {
         
         axios({
             method: 'POST',
-            url: 'http://localhost:5000/api/users/register',
+            url: `${process.env.REACT_APP_URL_TO_BACKEND}/api/users/register`,
             data: {
                 userEmail: responseUserEmail,
                 dataRequest: data,

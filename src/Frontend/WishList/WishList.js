@@ -14,7 +14,7 @@ const WishList = () => {
     useEffect(() => {
         axios({
             method: 'GET',
-            url: 'http://localhost:5000/api/wishlist',
+            url: `${process.env.REACT_APP_URL_TO_BACKEND}/api/wishlist`,
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': localStorage.getItem('token')
