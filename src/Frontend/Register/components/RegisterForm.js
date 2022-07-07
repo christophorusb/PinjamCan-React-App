@@ -99,10 +99,10 @@ const RegisterForm = () => {
 
     async function handleEmailCheck(data, event){
         event.preventDefault();
-        console.log('emailCheck ')
+        console.log('emailCheck')
         axios({
             method: 'POST',
-            url: 'http://localhost:5000/api/users/check-user',
+            url: `${process.env.REACT_APP_URL_TO_BACKEND}/api/users/check-user`,
             data: {
                 userEmail: data.userEmail,
             },
