@@ -148,6 +148,10 @@ const Cart = () => {
       setAreAllDeliveryOptionsSelected(false)
     }
     else{
+      const hide = message.loading({ 
+        content: <strong className="secondary-font-color">Sedang menyiapkan pembayaran...</strong>, 
+        duration: 0,
+      })
       axios({
         method: 'post',
         url: `${process.env.REACT_APP_URL_TO_BACKEND}/api/transaction`,
@@ -164,6 +168,7 @@ const Cart = () => {
         transactionToken.current = res.data.transactionToken
         setIsMidtransClientActive(true)
       }).then(() => {
+        hide()
         window.snap.pay(transactionToken.current)
       })
     }  
