@@ -4,7 +4,8 @@ import { Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import 'antd/dist/antd.css';
 import moment from 'moment';
-import { DatePicker, Modal, message } from 'antd';
+import { DatePicker, Modal } from 'antd';
+import CircularProgress from '@mui/material/CircularProgress';
 const { RangePicker } = DatePicker;
 
 function AvailabilityModal(props) {
@@ -30,6 +31,7 @@ function AvailabilityModal(props) {
     const [dateStrings, setDateStrings] = useState([]);
     const [momentDateObj, setMomentDateObj] = useState([])
     const [isDateInputFailed, setIsDateInputFailed] = useState(false);
+    const [isAddToCartLoading, setIsAddToCartLoading] = useState(false)
 
     const checkWithMinimumRentDuration = (momentDateObj) => {
       const startDate = momentDateObj[0].toDate()
@@ -68,13 +70,7 @@ function AvailabilityModal(props) {
         if(isGreaterThanMinimumRentDuration){ 
           let auth_token = localStorage.getItem('token')
           let modifiedItemBorrowDate = [...momentDateObj, momentDateObj[1].clone().add(1, 'days')]
-          const hide = message.loading({ 
-            content: <strong className="secondary-font-color">Sedang menambah barang ke keranjang...</strong>, 
-            duration: 0,
-            style:{
-              zIndex: 9999,
-            }
-          })
+          setIsAddToCartLoading(true)
           axios({
             method: 'post',
             url: `${process.env.REACT_APP_URL_TO_BACKEND}/api/cart/${props.ItemId}`,
@@ -88,12 +84,12 @@ function AvailabilityModal(props) {
           }).then(res => {
             if(res.status === 200){
               if(res.data.statusText === 'POSTED_ITEM_TO_CART'){
-                hide()
+                setIsAddToCartLoading(false)
                 Modal.success({
                   title: 'Berhasil menambahkan ke keranjang!',
                   zIndex: 9999,
                   onOk: () => {
-                    navigate('/cart', {replace: true}) 
+                    window.location.href = '/cart'
                   }
                 })
               }
@@ -103,7 +99,7 @@ function AvailabilityModal(props) {
             console.log(err.response.data)
             if(err.response.status === 401){
               //unauthorized, go back to login
-              navigate('/login')
+              navigate('/login', { replace: true })
               //document.location.href = '/login'
             }
           })
@@ -134,6 +130,12 @@ function AvailabilityModal(props) {
               }}
             />
           </div>
+
+          {isAddToCartLoading === true && 
+            <p className="text-center">
+              <CircularProgress size={'1rem'}/> <span style={{fontSize: '0.8rem'}} className="primary-font-color">Sedang menambah barang ke keranjang...</span>
+            </p>
+          }
           
           <Button type="submit" style={{width: '100%'}} className="primary-button">
             Pinjam Barang

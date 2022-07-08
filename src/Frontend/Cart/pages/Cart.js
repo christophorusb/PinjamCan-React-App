@@ -171,7 +171,7 @@ const Cart = () => {
 
   const handleDeleteItemInCart = (itemId) => {
     const hide = message.loading({ 
-      content: <strong className="secondary-font-color">Sedang menambah barang ke keranjang...</strong>, 
+      content: <strong className="secondary-font-color">Sedang menghapus barang dari keranjang...</strong>, 
       duration: 0,
     })
     axios({
