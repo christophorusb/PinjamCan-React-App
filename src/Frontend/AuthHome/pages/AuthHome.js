@@ -36,7 +36,7 @@ const AuthHome = () => {
   }
     return (
       <div className="pb-5">
-        <div classname="position-relative">
+        <div className="position-relative">
           <p className="primary-font-color" style={{textAlign:'left', marginBottom:'60px', marginLeft:'10px', fontSize:'1.5rem'}}><strong>Kategori</strong></p>
           {isLoading === true && 
             <CustomCircularLoading />
