@@ -9,6 +9,7 @@ import Select from '@mui/material/Select';
 import CustomCircularLoading from '../../shared/CustomCircularLoading/CustomCircularLoading'
 import {FaTrash} from 'react-icons/fa'
 import moment from 'moment/min/moment-with-locales'
+import { message } from 'antd';
 import { v4 as uuidv4 } from 'uuid'
 
 import EmptyCart from '../components/EmptyCart';
@@ -169,6 +170,10 @@ const Cart = () => {
   }
 
   const handleDeleteItemInCart = (itemId) => {
+    const hide = message.loading({ 
+      content: <strong className="secondary-font-color">Sedang menambah barang ke keranjang...</strong>, 
+      duration: 0,
+    })
     axios({
       method: 'put',
       url: `${process.env.REACT_APP_URL_TO_BACKEND}/api/cart/${itemId}`,
@@ -177,6 +182,8 @@ const Cart = () => {
         'Content-Type': 'application/json'
       } 
     }).then(res => {
+      hide()
+      message.success({ content: <strong className="secondary-font-color">Barang sudah dihapus dari keranjang</strong>, duration: 2})
       window.location.reload()
     })
   }

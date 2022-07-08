@@ -7,7 +7,7 @@ import Image from 'react-bootstrap/Image'
 import Button from 'react-bootstrap/Button'
 import { AiFillEdit, AiFillExclamationCircle } from 'react-icons/ai'
 import { FaTrash } from 'react-icons/fa'
-import { Modal as AntdModal } from 'antd'
+import { Modal as AntdModal, message } from 'antd'
 import CustomCircularLoading from '../../shared/CustomCircularLoading/CustomCircularLoading'
 import axios from 'axios'
 
@@ -23,6 +23,13 @@ const MyItems = () => {
     const [finishedOrdersModalShow, setFinishedOrdersModalShow] = useState(false)
 
     const deleteItem = (itemId) => { 
+        const hide = message.loading({ 
+            content: <strong className="secondary-font-color">Sedang menghapus barang...</strong>, 
+            duration: 0,
+            style:{
+              zIndex: 9999,
+            }
+          })
         axios({
             method: 'DELETE',
             url: `${process.env.REACT_APP_URL_TO_BACKEND}/api/items/${itemId}`,
@@ -33,6 +40,7 @@ const MyItems = () => {
         }).then(res => {
             if(res.status === 200){
                 if(res.data.statusText === 'ITEM_DELETED'){
+                    hide()
                     AntdModal.success({
                         title: 'Barang berhasil dihapus!',
                         okButtonProps: {

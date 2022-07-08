@@ -68,7 +68,13 @@ function AvailabilityModal(props) {
         if(isGreaterThanMinimumRentDuration){ 
           let auth_token = localStorage.getItem('token')
           let modifiedItemBorrowDate = [...momentDateObj, momentDateObj[1].clone().add(1, 'days')]
-          const hide = message.loading({ content: <strong className="secondary-font-color">Sedang menambah barang ke keranjang...</strong>, duration: 0})
+          const hide = message.loading({ 
+            content: <strong className="secondary-font-color">Sedang menambah barang ke keranjang...</strong>, 
+            duration: 0,
+            style:{
+              zIndex: 9999,
+            }
+          })
           axios({
             method: 'post',
             url: `${process.env.REACT_APP_URL_TO_BACKEND}/api/cart/${props.ItemId}`,
@@ -87,7 +93,7 @@ function AvailabilityModal(props) {
                   title: 'Berhasil menambahkan ke keranjang!',
                   zIndex: 9999,
                   onOk: () => {
-                    navigate('/cart') 
+                    navigate('/cart', {replace: true}) 
                   }
                 })
               }
