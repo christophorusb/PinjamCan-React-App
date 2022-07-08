@@ -4,7 +4,7 @@ import { Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import 'antd/dist/antd.css';
 import moment from 'moment';
-import { DatePicker, Modal, Space } from 'antd';
+import { DatePicker, Modal, message } from 'antd';
 const { RangePicker } = DatePicker;
 
 function AvailabilityModal(props) {
@@ -68,6 +68,7 @@ function AvailabilityModal(props) {
         if(isGreaterThanMinimumRentDuration){ 
           let auth_token = localStorage.getItem('token')
           let modifiedItemBorrowDate = [...momentDateObj, momentDateObj[1].clone().add(1, 'days')]
+          const hide = message.loading({ content: <strong className="secondary-font-color">Sedang menambah barang ke keranjang...</strong>, duration: 0})
           axios({
             method: 'post',
             url: `${process.env.REACT_APP_URL_TO_BACKEND}/api/cart/${props.ItemId}`,
@@ -81,6 +82,7 @@ function AvailabilityModal(props) {
           }).then(res => {
             if(res.status === 200){
               if(res.data.statusText === 'POSTED_ITEM_TO_CART'){
+                hide()
                 Modal.success({
                   title: 'Berhasil menambahkan ke keranjang!',
                   zIndex: 9999,

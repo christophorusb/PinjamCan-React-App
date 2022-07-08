@@ -1,18 +1,15 @@
-import {React, useState, useRef} from 'react'
-
+import {React, useState} from 'react'
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { Link, useNavigate } from 'react-router-dom';
-
-import RegisterSuccess from '../../Success/pages/RegisterSuccess'
 import TermsConditionsPrivacyPolicy from './TermsConditionsPrivacyPolicy';
 import { useForm } from 'react-hook-form';
-import { Modal, Space } from 'antd';
+import { Modal, message } from 'antd'
 
 import '../pages/Register.css';
 import {FaEye, FaEyeSlash} from 'react-icons/fa';
 import axios from 'axios'
-import { ModalManager } from '@mui/material';
+
 
 const RegisterForm = () => {
     const toggleIsPasswordShown = () => {
@@ -51,7 +48,8 @@ const RegisterForm = () => {
 
     async function handleRegistration(data, event){
         event.preventDefault();
-        
+        const hide = message.loading({ content: <strong className="secondary-font-color">Data kamu sedang diproses...</strong>, duration: 0})
+
         axios({
             method: 'POST',
             url: `${process.env.REACT_APP_URL_TO_BACKEND}/api/users/register`,
@@ -63,7 +61,7 @@ const RegisterForm = () => {
                 'Content-Type': 'application/json',
             }
         }).then(response => {
-            console.log('RESPONDED')
+            hide()
             navigate("/register-success", { replace: true });
         }).catch(error => {
             if(error.response.status === 400){
@@ -99,7 +97,7 @@ const RegisterForm = () => {
 
     async function handleEmailCheck(data, event){
         event.preventDefault();
-        console.log('emailCheck')
+        const hide = message.loading({ content: <strong className="secondary-font-color">Mengecek email kamu...</strong>, duration: 0})
         axios({
             method: 'POST',
             url: `${process.env.REACT_APP_URL_TO_BACKEND}/api/users/check-user`,
@@ -110,6 +108,8 @@ const RegisterForm = () => {
                 'Content-Type': 'application/json',
             }
         }).then(response => {
+            hide()
+            message.success({ content: <strong className="secondary-font-color">Email kamu tersedia!</strong>, duration: 2})
             nextStep(response.data.newUserEmail)
         }).catch(error => {
             if(error.response.status === 400){

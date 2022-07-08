@@ -278,7 +278,7 @@ const Cart = () => {
                     <Row key={uuidv4()} className="cart-user-item-wrapper border shadow-sm">
                       <div className="mb-3">
                         <h5 className="primary-font-color">{cartItem.ItemsByUser.CreatedBy.userFullName}</h5>
-                        <h6 className="primary-font-color" style={{fontSize: '0.9rem'}}>{cartItem.ItemsByUser.CreatedBy.userAddress}n</h6>
+                        <h6 className="primary-font-color" style={{fontSize: '0.9rem'}}>{cartItem.ItemsByUser.CreatedBy.userAddress}</h6>
                       </div>
                       {
                         cartItem.ItemsByUser.Items.map((item, index) => (
