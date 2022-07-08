@@ -65,6 +65,7 @@ const RegisterForm = () => {
             navigate("/register-success", { replace: true });
         }).catch(error => {
             if(error.response.status === 400){
+                console.log(error.response)
                if(error.response.data.statusText === 'USER_DATA_DUPLICATE'){
                     Modal.error({
                         title: `Error: Data duplikat (key: ${error.response.data.duplicateKey})`,

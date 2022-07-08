@@ -122,7 +122,7 @@ const ItemsByCategory = () => {
               <Link key={incrementBreadCrumbKey} underline="hover" color="inherit" href="/">
                   Home
               </Link>,
-              <Link key={incrementBreadCrumbKey} underline="hover" color="inherit" href={`/home/category/${itemCategoryId}`}>
+              <Link key={incrementBreadCrumbKey} underline="hover" color="inherit" href={localStorage.getItem('token') ? `/home/category` : `/category`}>
                   <strong>
                     {
                       itemCategoryId === '' ? 'Semua' : res.data.itemCategory

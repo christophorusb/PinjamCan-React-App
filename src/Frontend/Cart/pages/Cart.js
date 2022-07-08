@@ -140,6 +140,11 @@ const Cart = () => {
     setIsCheckoutActive(true)
   }
 
+  const handleBackToCart = () => {
+    deliveryOptionsSelectedInCartCount.current = 0
+    setIsCheckoutActive(false)
+  }
+
   const handlePreparePaymentData = (token, totalPrice) => {
     if(Object.keys(checkedOutItems).length === 0){
       setAreAllDeliveryOptionsSelected(false)
@@ -389,7 +394,7 @@ const Cart = () => {
                     <BootstrapButton className="secondary-button full-width" onClick={() => handlePreparePaymentData(localStorage.getItem('token'), totalPrice)}>
                       Bayar
                     </BootstrapButton> 
-                    <BootstrapButton className="secondary-button-outlined full-width mt-2" onClick={() => setIsCheckoutActive(false)}>
+                    <BootstrapButton className="secondary-button-outlined full-width mt-2" onClick={() => handleBackToCart()}>
                       Kembali ke keranjang
                     </BootstrapButton>
                   </div>

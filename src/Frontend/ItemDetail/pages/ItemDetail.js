@@ -73,7 +73,7 @@ const ItemDetail = () => {
               <Link key={uuidv4()} underline="hover" color="inherit" href="/">
                 Home
               </Link>,
-              <Link key={uuidv4()} underline="hover" color="inherit" href={`/home/category?ItemCategory=${item.ItemCategory._id}`}>
+              <Link key={uuidv4()} underline="hover" color="inherit" href={localStorage.getItem('token') ? `/home/category?ItemCategory=${item.ItemCategory._id}` : `/category?ItemCategory=${item.ItemCategory._id}`}>
                 <strong>{res.data.dataResponse.ItemCategory.Value}</strong>
               </Link>,
               <Link key={uuidv4()} underline="hover" color="inherit" href={itemURL}>
