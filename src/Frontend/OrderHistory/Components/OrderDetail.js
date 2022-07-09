@@ -36,7 +36,7 @@ const OrderDetail = (props) => {
     const handleReturnItem = (orderId) => {
         axios({
             method: 'PUT',
-            url: `http://localhost:5000/api/order/return-item/${orderId}`,
+            url: `${process.env.REACT_APP_URL_TO_BACKEND}/api/order/return-item/${orderId}`,
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': localStorage.getItem('token')
@@ -102,7 +102,7 @@ const OrderDetail = (props) => {
     const handleArrivedItem = (orderId) => {
         axios({
             method: 'PUT',
-            url: `http://localhost:5000/api/order/arrived/${orderId}`,
+            url: `${process.env.REACT_APP_URL_TO_BACKEND}/api/order/arrived/${orderId}`,
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': localStorage.getItem('token')
@@ -160,7 +160,7 @@ const OrderDetail = (props) => {
     const handleDeleteOrder = (orderId) => {
         axios({
             method: 'DELETE',
-            url: `http://localhost:5000/api/order/remove/${orderId}`,
+            url: `${process.env.REACT_APP_URL_TO_BACKEND}/api/order/remove/${orderId}`,
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': localStorage.getItem('token')
@@ -173,7 +173,7 @@ const OrderDetail = (props) => {
     useEffect(() => {
         axios({
             method: 'GET',
-            url: `http://localhost:5000/api/order/${props.transaction.OrderId}`,
+            url: `${process.env.REACT_APP_URL_TO_BACKEND}/api/order/${props.transaction.OrderId}`,
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': localStorage.getItem('token')

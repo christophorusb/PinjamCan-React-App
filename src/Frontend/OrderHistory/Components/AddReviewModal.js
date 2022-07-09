@@ -26,7 +26,7 @@ const MyAddReviewModal = (props) => {
         e.preventDefault()
          axios({
              method: 'POST',
-             url: `http://localhost:5000/api/review`,
+             url: `${process.env.REACT_APP_URL_TO_BACKEND}/api/review`,
              headers: {
                  'Content-Type': 'application/json',
                  'Authorization': localStorage.getItem('token')

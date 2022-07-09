@@ -59,7 +59,7 @@ const PaymentPending = (props) => {
 
         axios({
           method: 'post',
-          url: `http://localhost:5000/api/transaction/pending/${props.transaction.OrderId}`,
+          url: `${process.env.REACT_APP_URL_TO_BACKEND}/api/transaction/pending/${props.transaction.OrderId}`,
           headers: {
             'Content-Type': 'application/json',
             'Authorization': localStorage.getItem('token')
@@ -81,7 +81,7 @@ const PaymentPending = (props) => {
     const handleCancelPayment = () => {
         axios({
             method: 'delete',
-            url: `http://localhost:5000/api/transaction/${props.transaction.OrderId}`,
+            url: `${process.env.REACT_APP_URL_TO_BACKEND}/api/transaction/${props.transaction.OrderId}`,
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': localStorage.getItem('token')

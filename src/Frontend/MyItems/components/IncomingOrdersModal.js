@@ -22,7 +22,7 @@ const IncomingOrdersModal = (props) => {
     const handleAcceptOrder = (orderId) => {
         axios({
             method: 'PUT',
-            url: `http://localhost:5000/api/order/accept/${orderId}`,
+            url: `${process.env.REACT_APP_URL_TO_BACKEND}/api/order/accept/${orderId}`,
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': localStorage.getItem('token')

@@ -25,7 +25,7 @@ const OngoingOrdersModal = (props) => {
     const handleOnDeliveryOrder = (orderId) => {
         axios({
             method: 'PUT',
-            url: `http://localhost:5000/api/order/on-delivery/${orderId}`,
+            url: `${process.env.REACT_APP_URL_TO_BACKEND}/api/order/on-delivery/${orderId}`,
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': localStorage.getItem('token')
