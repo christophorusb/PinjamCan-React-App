@@ -55,8 +55,10 @@ const OrderHistory = () => {
                                 }
                             </Row>
                         </Col>
-                        
-                        <OrderDetail transaction = {transaction} />
+                        {
+                            transaction.TransactionStatus === 'settlement' &&
+                            <OrderDetail transaction = {transaction} />
+                        }
                     </Row> 
                 ))
             }

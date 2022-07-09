@@ -192,14 +192,13 @@ const OrderDetail = (props) => {
     }
   return (
     <Row className="pe-0">
-        {
-            props.transaction.TransactionStatus === 'settlement' &&
-            <div className="d-flex justify-content-end mt-5 mb-5 pe-1">
-                <Button className="tertiary-button-outlined btn-sm" onClick={() => handleOrderDetailVisibility()}>
-                    {isOrderDetailVisible === false ? <span>Lihat detail pesanan</span> : <span>Tutup detail pesanan</span>}
-                </Button>
-            </div>
-        }
+  
+        <div className="d-flex justify-content-end mt-5 mb-5 pe-1">
+            <Button className="tertiary-button-outlined btn-sm" onClick={() => handleOrderDetailVisibility()}>
+                {isOrderDetailVisible === false ? <span>Lihat detail pesanan</span> : <span>Tutup detail pesanan</span>}
+            </Button>
+        </div>
+   
         
         {
             isOrderDetailVisible === true &&
