@@ -1,13 +1,10 @@
 import React from 'react'
-
-import FormControl from 'react-bootstrap/FormControl';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { useSelector, useStore, useDispatch } from 'react-redux'
-//import Axios from 'axios';
-// import { useForm } from 'react-hook-form';
+import { useSelector,  useDispatch } from 'react-redux'
+import { message } from 'antd'
 import '../../Login/Pages/Login.css';
 import '../../../customGeneralStyle.css';
 import {FaEye, FaEyeSlash} from 'react-icons/fa';
@@ -22,6 +19,7 @@ const LoginForm = () => {
     let navigate = useNavigate()
     const loginHandler = async (e) => {
         e.preventDefault()
+        const hide = message.loading({ content: <strong className="secondary-font-color">Sedang mengecek akun kamu...</strong>, duration: 0})
         const response = await fetch(`${process.env.REACT_APP_URL_TO_BACKEND}/api/users/login`,{
                 method: 'POST',
                 headers: {
@@ -35,8 +33,6 @@ const LoginForm = () => {
 
         const data = await response.json()
 
-        console.log(data)
-
         //if login credentials are incorrect
         if(!response.ok){
             setIsBadRequest(true)
@@ -44,9 +40,9 @@ const LoginForm = () => {
         //if login credentials are correct, save token to localStorage 
         //and dispatch LOGIN action to store with user data as payload
         else{
+            hide()
             setIsBadRequest(false)
             dispatch({type: 'LOGIN', payload: data})
-            console.log(state)
             //set token and time of login to local storage
             localStorage.setItem('token', data.token)
             localStorage.setItem('timeOfLogin', data.timeOfLogin)
@@ -56,8 +52,6 @@ const LoginForm = () => {
     }
 
     useEffect(() => {
-        console.log('inside loginForm UseEffect')
-        console.log('responded with bad request? ' + isBadRequest)
         console.log(state)
     }, [isBadRequest])
 

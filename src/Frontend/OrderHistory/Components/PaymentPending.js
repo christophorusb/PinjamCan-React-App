@@ -1,7 +1,7 @@
 import {React, useState, useRef, useEffect} from 'react'
 import Button from 'react-bootstrap/Button'
-import { Modal } from 'antd' 
-import {AiFillCheckCircle, AiFillWarning} from 'react-icons/ai'
+import { Modal, message } from 'antd' 
+import { AiFillWarning } from 'react-icons/ai'
 import CustomCircularLoading from '../../shared/CustomCircularLoading/CustomCircularLoading'
 import axios from 'axios'
 
@@ -40,6 +40,10 @@ const PaymentPending = (props) => {
 
     const handlePreparePaymentData = (gross_amount) => {
         let orderedItems = []
+        const hide = message.loading({ 
+            content: <strong className="secondary-font-color">Sedang menyiapkan pembayaran...</strong>, 
+            duration: 0,
+          })
 
         props.transaction.OrderedItems.forEach(orderedItem => {
             const itemBorrowDate = orderedItem.ItemBorrowDate
@@ -74,6 +78,7 @@ const PaymentPending = (props) => {
           console.log(transactionToken.current)
           setIsMidtransClientActive(true)
         }).then(() => {
+            hide()
           window.snap.pay(transactionToken.current)
         })
     }

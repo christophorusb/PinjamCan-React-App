@@ -6,7 +6,7 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import '../../Login/Pages/Login.css';
 import Container from 'react-bootstrap/Container';
-import { Modal, Space } from 'antd';
+import { Modal, message } from 'antd';
 import axios from 'axios'
 
 const ForgotPassword = () => {
@@ -31,6 +31,7 @@ const ForgotPassword = () => {
     const submitEmail = async (data, e) => {
         e.preventDefault()
         setEmailExist(true)
+        const hide = message.loading({ content: <strong className="secondary-font-color">Sedang mengirim link ke email kamu...</strong>, duration: 0})
         console.log('submit email')
         console.log(data.userEmail)
         const response = await axios({
@@ -45,6 +46,7 @@ const ForgotPassword = () => {
         }).then(res => {
             console.log(res)
             setEmailExist(true)
+            hide()
             if(res.status === 200){
                 if(res.data. statusText === 'PASSWORD_RECOVERY_EMAIL_SENT'){
                     Modal.success({
@@ -57,6 +59,7 @@ const ForgotPassword = () => {
             }
         }).catch(err => {
             setEmailExist(false)
+            hide()
         })
         // console.log(data)
     }

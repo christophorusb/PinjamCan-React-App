@@ -1,12 +1,12 @@
 import { React, useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message'
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import '../../Login/Pages/Login.css';
 import Container from 'react-bootstrap/Container';
-import { Modal, Space } from 'antd';
+import { Modal, message } from 'antd';
 import {FaEye, FaEyeSlash} from 'react-icons/fa';
 import CustomCircularLoading from '../../shared/CustomCircularLoading/CustomCircularLoading';
 import axios from 'axios'
@@ -51,9 +51,7 @@ const CreateNewPassword = () => {
 
     const submitNewPassword = (data, e) =>{
         e.preventDefault();
-        console.log(data)
-        console.log('jwt payload')
-        console.log(tokenPayload)
+        const hide = message.loading({ content: <strong className="secondary-font-color">Sedang mengganti password kamu...</strong>, duration: 0})
         axios({
             method: 'post',
             url: `${process.env.REACT_APP_URL_TO_BACKEND}/api/users/reset-password/create-new-password`,
@@ -66,6 +64,7 @@ const CreateNewPassword = () => {
             }
         }).then(res => {
             if(res.status === 200){
+                hide()
                 if(res.data.statusText === 'PASSWORD_RESET_SUCCESS'){
                     Modal.success({
                         content: 'Yay! Password kamu berhasil diganti. Silahkan kembali ke halaman Login.',
@@ -91,15 +90,23 @@ const CreateNewPassword = () => {
             if(err.response.status === 400){
                 if(err.response.data.statusText === 'PASSWORD_RESET_TOKEN_EXPIRED'){
                     Modal.error({
-                        title: 'Error: Reset Password Link Expired',
+                        title: 'Error: Link sudah lewat batas waktu',
+                        content: 'Link ini sudah melewati batas waktu, silahkan kembali ke login.',
+                        onOk: (e) => {
+                            window.location.href = '/login'
+                        }
+                    });
+                }
+                if(err.response.data.statusText === 'PASSWORD_RESET_TOKEN_INVALID'){
+                    Modal.error({
+                        title: 'Error: Link sudah tidak berlaku lagi',
                         content: 'Link ini sudah tidak berlaku, silahkan kembali ke login.',
                         onOk: (e) => {
                             window.location.href = '/login'
                         }
                     });
                 }
-            }
-            console.log(err)
+            }    
         })
     }, [])
 
