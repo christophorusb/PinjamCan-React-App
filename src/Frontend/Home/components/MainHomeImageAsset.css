@@ -16,3 +16,36 @@
 .list-item-btn{
     padding: 10px 30px 10px 30px;
 }
+
+@media (max-width: 1921px){
+    .img-wrapper{
+        height: 650px;
+        width: auto;
+        position: absolute;
+        z-index: -1;
+        right: 0;
+        top:180px;
+    }
+}
+
+@media (max-width: 1601px){
+    .img-wrapper{
+        height: 500px;
+        width: auto;
+        position: absolute;
+        z-index: -1;
+        right: 0;
+        top:200px;
+    }
+}
+
+@media (max-width: 1367px){
+    .img-wrapper{
+        height: 450px;
+        width: auto;
+        position: absolute;
+        z-index: -1;
+        right: -10px;
+        top:200px;
+    }
+}
