@@ -19,6 +19,7 @@ const LoginForm = () => {
     let navigate = useNavigate()
     const loginHandler = async (e) => {
         e.preventDefault()
+        setIsBadRequest(false)
         const hide = message.loading({ content: <strong className="secondary-font-color">Sedang mengecek akun kamu...</strong>, duration: 0})
         const response = await fetch(`${process.env.REACT_APP_URL_TO_BACKEND}/api/users/login`,{
                 method: 'POST',
@@ -35,6 +36,7 @@ const LoginForm = () => {
 
         //if login credentials are incorrect
         if(!response.ok){
+            hide()
             setIsBadRequest(true)
         }
         //if login credentials are correct, save token to localStorage 
@@ -87,7 +89,7 @@ const LoginForm = () => {
             <Link to="/reset-password" className="secondary-font-color" style={{fontSize:'0.7rem'}}>
                 <span>Lupa password kamu?</span>
             </Link>
-            {isBadRequest && <p style={{marginBlock:0, marginTop:"2em", fontSize: "0.8em", color:"red"}}>Email atau password salah</p>}
+            {isBadRequest && <p style={{marginBlock:0, marginTop:"2em", fontSize: "0.8em"}} className="secondary-font-color"><strong>Email atau password salah</strong></p>}
             <Button type="submit" className="login-submit-button primary-background-color">
                 Masuk
             </Button>
