@@ -8,12 +8,12 @@ const TermsConditionsPrivacyPolicy = () => {
     <div>
          <p style={{marginBlock:0, marginTop:"2em", textAlign:"center", fontSize: "0.8em"}}>
             Dengan mendaftar, saya menyetujui {' '}
-            <Link to="/terms-and-conditions" className="link-to-terms-and-conditions secondary-font-color">
+            <Link to="#" className="link-to-terms-and-conditions secondary-font-color">
                 Syarat dan Ketentuan
             </Link>
             {' '}
             serta {' '}
-            <Link to="/privacy-policy" className="link-to-privacy-policy secondary-font-color">
+            <Link to="#" className="link-to-privacy-policy secondary-font-color">
                 Kebijakan Privasi
             </Link>
         </p>
