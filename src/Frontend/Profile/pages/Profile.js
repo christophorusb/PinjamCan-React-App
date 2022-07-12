@@ -1,8 +1,9 @@
-import {React, useState, useEffect} from 'react'
+import {React, useState, useEffect, useRef } from 'react'
 import { useForm } from 'react-hook-form';
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
-import { Modal } from 'antd'
+import { Modal, message } from 'antd'
+import Skeleton from '@mui/material/Skeleton';
 import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
@@ -17,6 +18,7 @@ const Profile = () => {
     const [isPasswordShown, setIsPasswordShown] = useState(false)
     const [showNewPasswordInput, setShowNewPasswordInput] = useState(false)
     const [isOldPasswordIncorrect, setIsOldPasswordIncorrect] = useState(false)
+    const formResetData = useRef({})
     let navigate = useNavigate();
 
     console.log(userData)
@@ -25,7 +27,8 @@ const Profile = () => {
         control,
         handleSubmit, 
         formState: { errors }, 
-        getValues } 
+        getValues,
+        reset } 
         = useForm();
 
     const showDottedPassword = (originalPasswordLength) =>{
@@ -58,9 +61,19 @@ const Profile = () => {
         }
     }
 
+    const handleAbortEdit = () => {
+        reset(formResetData.current)
+        setIsEditProfileActive(false)
+    }
+
+    const handleResetPassword = () => {
+        localStorage.removeItem('token')
+        window.open('/reset-password', '_blank')
+    }
+
     const handleSubmitEditProfile = (data, e) => {
         e.preventDefault()
-        console.log(data)
+        // console.log(data)
         setIsOldPasswordIncorrect(false)
         const modifiedForChecking = {
             ...data,
@@ -83,8 +96,10 @@ const Profile = () => {
             console.log('Nothing to update')
         }
         else{
-            console.log('data to be updated')
-            console.log(changedData)
+            // console.log('data to be updated')
+            // console.log(changedData)
+            const hide = message.loading({ content: <strong className="secondary-font-color">Mengubah data kamu...</strong>, duration: 0})
+            setIsOldPasswordIncorrect(false)
             axios({
                 method: 'PUT',
                 url: `${process.env.REACT_APP_URL_TO_BACKEND}/api/users/profile/edit`,
@@ -95,6 +110,7 @@ const Profile = () => {
                 }
             }).then(res => {
                 if(res.data.statusText === 'PROFILE_UPDATED'){
+                    hide()
                     Modal.success({
                         title: 'Profil berhasil diubah!',
                         onOk: () => {
@@ -106,6 +122,7 @@ const Profile = () => {
                 console.log(err)
                 if(err.response.status === 400){
                     if(err.response.data.statusText === 'PASSWORD_NOT_MATCH'){
+                        hide()
                         setIsOldPasswordIncorrect(true)
                     }
                 }
@@ -122,12 +139,14 @@ const Profile = () => {
             },
         },
         userEmail: {
+            required: 'Email tidak boleh kosong!',
             pattern:{
                 value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
                 message: "Email tidak benar. Contoh: user@pinjamcan.com"
             }
         },
         userAddress: {
+            required: 'Alamat tidak boleh kosong!',
             minLength   : {
                 value   : 10,
                 message : "Alamat harus lebih dari 10 karakter"
@@ -148,6 +167,20 @@ const Profile = () => {
             },
             validate: (value) => value !== getValues("userPassword_old") || "Password baru tidak boleh sama dengan password lama"
         },
+        userPhoneNumber:{
+            required: "Nomor telepon tidak boleh kosong!",
+            pattern:{
+                value: /^8[1-9][0-9]{7,10}$/,
+                message: "Format nomor telepon tidak benar"
+            },
+        },
+        userAddress: {
+            required: "Alamat tidak boleh kosong!",
+            minLength: {
+                value: 10,
+                message: "Alamat harus lebih dari 10 karakter"
+            }
+        },
     }
     //side-effect for fetching user data
     useEffect(() => {
@@ -159,6 +192,12 @@ const Profile = () => {
                 'Content-Type': 'application/json'
             }
         }).then(res => {
+            const dataForFormReset = {
+                userEmail: res.data.dataResponse.userEmail,
+                userPhoneNumber: res.data.dataResponse.userPhoneNumber.split('+62')[1],
+                userAddress: res.data.dataResponse.userAddress,
+            }
+            formResetData.current = dataForFormReset
             setUserData(res.data.dataResponse)
         }).then(() => {
             setIsProfileLoading(false)
@@ -177,12 +216,24 @@ const Profile = () => {
         }}
         >
             <Form onSubmit={ handleSubmit(handleSubmitEditProfile, handleError) }>
-                <h1 className="text-center primary-font-color mb-5 pb-5 border-bottom"><strong>{userData.userFullName}</strong></h1>
+                {
+                    isProfileLoading ?
+                    <Skeleton variant="text" height={60} className="mb-5 pb-5" />
+                    :
+                    <h1 className="text-center primary-font-color mb-5 pb-5 border-bottom"><strong>{userData.userFullName}</strong></h1>
+                }
+                
                 <Row>
                     <Col>
                         <p style={{fontSize: '20px'}}><strong>E-mail</strong></p>
                     </Col>
-                    <Col>
+                    {
+                        isProfileLoading ? 
+                        <Col>
+                            <Skeleton variant="text" height={40} />
+                        </Col>
+                        :
+                        <Col>
                         {
                             isEditProfileActive ? 
                             <Form.Group>
@@ -193,88 +244,111 @@ const Profile = () => {
                             :
                             <p style={{fontSize: '20px'}}>{userData.userEmail}</p>
                         }
-                    </Col>
+                        </Col>
+                    }
                 </Row>
                 <Row>
                     <Col>
                         <p style={{fontSize: '20px'}}><strong>Password</strong></p>
                     </Col>
-                    <Col>
-                        {
-                            isEditProfileActive ?
-                            <div>
-                                <Form.Group className="mb-4">
-                                    <Form.Control 
-                                        placeHolder='Masukkan password lama kamu' 
-                                        name='userPassword_old' 
-                                        type={isPasswordShown ? 'text' : 'password'} 
-                                        {...register('userPassword_old', editProfileValidations.userPassword_old)}
-                                    />
-                                    {(
-                                        <Button className="eye-button" onClick={toggleIsPasswordShown}>
-                                            {isPasswordShown ? <FaEyeSlash style={{color:'black'}}/> : <FaEye style={{color:'black'}}/>}
-                                        </Button>
-                                    )}
-                                    <span className="secondary-font-color register-invalid-message">{errors?.userPassword_old && errors.userPassword_old.message}</span>
-                                    <br />
-                                    
-                                    {isOldPasswordIncorrect && <><span className="secondary-font-color" style={{fontSize: '0.8rem'}}>Password lama kamu salah!</span> <br /><br /></>}
-                                    <Button onClick={() => window.open('/reset-password', '_blank')} className="btn-sm py-0 secondary-button-outlined " style={{fontSize: '0.8rem'}}>Lupa password kamu?</Button>
-                                </Form.Group>
-                                {
-                                    showNewPasswordInput === true &&
+                    {
+                        isProfileLoading ? 
+                        <Col>
+                            <Skeleton variant="text" height={40} />
+                        </Col>
+                        :
+                        <Col>
+                            {
+                                isEditProfileActive ?
+                                <div>
                                     <Form.Group className="mb-4">
-                                        <Form.Control placeHolder='Masukkan password baru kamu' name='userPassword_new' type={isPasswordShown ? 'text' : 'password'} {...register('userPassword_new', editProfileValidations.userPassword_new)}/>
+                                        <Form.Control 
+                                            placeHolder='Masukkan password lama kamu' 
+                                            name='userPassword_old' 
+                                            type={isPasswordShown ? 'text' : 'password'} 
+                                            {...register('userPassword_old', editProfileValidations.userPassword_old)}
+                                        />
                                         {(
                                             <Button className="eye-button" onClick={toggleIsPasswordShown}>
                                                 {isPasswordShown ? <FaEyeSlash style={{color:'black'}}/> : <FaEye style={{color:'black'}}/>}
                                             </Button>
                                         )}
-                                        <span className="secondary-font-color register-invalid-message">{errors?.userPassword_new && errors.userPassword_new.message}</span>
+                                        <span className="secondary-font-color register-invalid-message">{errors?.userPassword_old && errors.userPassword_old.message}</span>
                                         <br />
+                                        
+                                        {isOldPasswordIncorrect && <><span className="secondary-font-color" style={{fontSize: '0.8rem'}}>Password lama kamu salah!</span> <br /><br /></>}
+                                        <Button onClick={() => handleResetPassword()} className="btn-sm py-0 secondary-button-outlined " style={{fontSize: '0.8rem'}}>Lupa password kamu?</Button>
                                     </Form.Group>
-                                }
-                            </div>
-                            :
-                            <p style={{fontSize: '20px'}}>{showDottedPassword(userData.userOriginalPasswordLength)}</p>
-                        }
-                    </Col>
+                                    {
+                                        showNewPasswordInput === true &&
+                                        <Form.Group className="mb-4">
+                                            <Form.Control placeHolder='Masukkan password baru kamu' name='userPassword_new' type={isPasswordShown ? 'text' : 'password'} {...register('userPassword_new', editProfileValidations.userPassword_new)}/>
+                                            {(
+                                                <Button className="eye-button" onClick={toggleIsPasswordShown}>
+                                                    {isPasswordShown ? <FaEyeSlash style={{color:'black'}}/> : <FaEye style={{color:'black'}}/>}
+                                                </Button>
+                                            )}
+                                            <span className="secondary-font-color register-invalid-message">{errors?.userPassword_new && errors.userPassword_new.message}</span>
+                                            <br />
+                                        </Form.Group>
+                                    }
+                                </div>
+                                :
+                                <p style={{fontSize: '20px'}}>{showDottedPassword(userData.userOriginalPasswordLength)}</p>
+                            }
+                        </Col>
+                    }
                 </Row>
                 <Row>
                     <Col>
                         <p style={{fontSize: '20px'}}><strong>Nomor Telepon</strong></p>
                     </Col>
-                    <Col>
-                        {
-                            isEditProfileActive ?
-                            <Form.Group>
-                                <div className='d-flex'>
-                                    <div className='d-flex justify-content-center align-items-center' style={{border: '1px solid rgb(204, 200, 200)', paddingLeft:'5px', paddingRight:'7px', backgroundColor:'rgb(242, 241, 241)', borderRadius:'5px 0 0 5px'}}>
-                                        <span>+62</span>
+                    {
+                        isProfileLoading ?
+                        <Col>
+                            <Skeleton variant="text" height={40} />
+                        </Col>
+                        :
+                        <Col>
+                            {
+                                isEditProfileActive ?
+                                <Form.Group>
+                                    <div className='d-flex'>
+                                        <div className='d-flex justify-content-center align-items-center' style={{border: '1px solid rgb(204, 200, 200)', paddingLeft:'5px', paddingRight:'7px', backgroundColor:'rgb(242, 241, 241)', borderRadius:'5px 0 0 5px'}}>
+                                            <span>+62</span>
+                                        </div>
+                                        <Form.Control style={{borderLeft: 'none', borderRadius:'0 5px 5px 0'}} name='userPhoneNumber' defaultValue={getModifiedPhoneNumber(userData.userPhoneNumber)} {...register('userPhoneNumber', editProfileValidations.userPhoneNumber)}/>
                                     </div>
-                                    <Form.Control style={{borderLeft: 'none', borderRadius:'0 5px 5px 0'}} name='userPhoneNumber' defaultValue={getModifiedPhoneNumber(userData.userPhoneNumber)} {...register('userPhoneNumber', editProfileValidations.userPhoneNumber)}/>
-                                </div>
-                                <span className="secondary-font-color register-invalid-message">{errors?.userPhoneNumber && errors.userPhoneNumber.message}</span>
-                            </Form.Group>
-                            :
-                            <p style={{fontSize: '20px'}}>{userData.userPhoneNumber}</p>
-                        }
-                    </Col>
+                                    <span className="secondary-font-color register-invalid-message">{errors?.userPhoneNumber && errors.userPhoneNumber.message}</span>
+                                </Form.Group>
+                                :
+                                <p style={{fontSize: '20px'}}>{userData.userPhoneNumber}</p>
+                            }
+                        </Col>
+                    }
                 </Row>
                 <Row>
                     <Col>
                         <p style={{fontSize: '20px'}}><strong>Alamat</strong></p>
                     </Col>
-                    <Col>
-                        {
-                            isEditProfileActive ?
-                            <Form.Group className="mb-3" controlId="user-nik">
-                                <Form.Control style={{height: '100px'}} as ="textarea" name="userAddress" id="user-address" defaultValue={userData.userAddress} {...register('userAddress', editProfileValidations.userAddress)}/>
-                            </Form.Group>
-                            :
-                            <p style={{fontSize: '20px'}}>{userData.userAddress}</p>
-                        }
-                    </Col>
+                    {
+                        isProfileLoading ?
+                        <Col>
+                            <Skeleton variant="text" height={40} />
+                        </Col>
+                        :
+                        <Col>
+                            {
+                                isEditProfileActive ?
+                                <Form.Group className="mb-3" controlId="user-nik">
+                                    <Form.Control style={{height: '100px'}} as ="textarea" name="userAddress" id="user-address" defaultValue={userData.userAddress} {...register('userAddress', editProfileValidations.userAddress)}/>
+                                    <span className="secondary-font-color register-invalid-message">{errors?.userAddress && errors.userAddress.message}</span>
+                                </Form.Group>
+                                :
+                                <p style={{fontSize: '20px'}}>{userData.userAddress}</p>
+                            }
+                        </Col>
+                    }
                 </Row>
                 <Row>
                     <div className="d-flex justify-content-center mt-5">
@@ -294,7 +368,7 @@ const Profile = () => {
                     
                         {
                             isEditProfileActive &&
-                            <Button onClick={() => setIsEditProfileActive(false)} className="tertiary-button-outlined m-2" style={{width: '30%'}}>Batal</Button>
+                            <Button onClick={() => handleAbortEdit()} className="tertiary-button-outlined m-2" style={{width: '30%'}}>Batal</Button>
                         }
                     </div>
                 </Row>
