@@ -109,7 +109,7 @@ const Cart = () => {
     const max = 50000
     const min = 10000
     const deliveryOptionPriceDemo = Math.floor(Math.random() * (max - min + 1)) + min
-    if(event.target.value === 'Antar-Sendiri'){
+    if(event.target.value === 'Diambil-Peminjam' || event.target.value === 'Diantar-Pemilik'){
       const thisItemCheckoutPrice = totalBorrowPricePerItemArr.current.find(item => item.itemName === itemDetail.ItemName).totalPricePerItem
       setCheckedOutItems({...checkedOutItems, [event.target.name]: [event.target.value, 0, itemDetail._id, thisItemCheckoutPrice]})
     }
