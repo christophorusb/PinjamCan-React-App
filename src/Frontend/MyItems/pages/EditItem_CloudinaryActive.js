@@ -306,7 +306,7 @@ const EditItem_CloudinaryActive = () => {
         
                       <UpdateRentPriceAdornmentGroup 
                         inputValidation={productListingValidations.itemRentPrice}
-                        existingValues={Object.keys(item).length === 0 ? 'NONE' : {daily: item.ItemPriceDaily, weekly: item.ItemPriceWeeklyPerDay*7, monthly: item.ItemPriceMonthlyPerDay*30}}
+                        existingValues={Object.keys(item).length === 0 ? 'NONE' : {daily: item.ItemPriceDaily, weekly: item.ItemWeeklyPriceOriginal, monthly: item.ItemMonthlyPriceOriginal}}
                       /> 
         
                       <CustomUpdateFormInput
