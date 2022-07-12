@@ -10,14 +10,12 @@ const CustomFormInputWithAdornment = (props) => {
   const [labelFocus, setLabelFocus] = useState(false)
   const [price, setPrice] = useState('0')
   const [priceDisplay, setPriceDisplay] = useState('0')
+  const [dailyPriceDisplay, setDailyPriceDisplay] = useState('0')
   const [adornmentFocus, setAdornmentFocus] = useState(false)
   const { register, formState: { errors } } = useFormContext()
   const inputName = props.inputName
   const inputValidation = props.inputValidation
 
-  //console.log('priceadornmentcomponent render')
-
-  //const { onChange, onBlur, name, ref } = register(inputName, validationStructure.inputValidation)
 
   const handleFocus = () => {
     setLabelFocus(true)
@@ -29,10 +27,6 @@ const CustomFormInputWithAdornment = (props) => {
     setAdornmentFocus(false)
   }
 
-  // const handleChange = (e) => {
-  //   setPrice(e.target.value)
-  // }
-
   const renderInputUnit = () => {
     if(labelCheckControl.includes(props.inputLabel))
     {
@@ -40,16 +34,47 @@ const CustomFormInputWithAdornment = (props) => {
     }    
   };
 
+  const renderDaily = () => {
+    if(props.inputLabel !== 'Hari'){
+      if(props.inputLabel === 'Minggu'){
+        return (
+          <div>(Rp. {dailyPriceDisplay} /Hari)</div>
+        )
+      }
+      else if(props.inputLabel === 'Bulan'){
+        return (
+          <div>(Rp. {dailyPriceDisplay} /Hari)</div>
+        )
+      }
+      else{ 
+        return null
+      }
+    }
+  }
+
   const validationStructure = {
     ...inputValidation,
     onChange: (e) => setPrice(e.target.value),
     onBlur:() => handleBlur(),
   };
 
-  //side effect to display price in price format
   useEffect(() => {
-    //console.log(new Intl.NumberFormat('id-ID').format(price))
+    console.log('useeffect')
+
     setPriceDisplay(new Intl.NumberFormat('id-ID').format(price))
+    if(labelCheckControl.includes(props.inputLabel))
+    {
+      console.log('label exist')
+      if(props.inputLabel === 'Minggu'){
+        const dailyPriceDisplay = Math.floor(parseInt(price) / 7)
+        setDailyPriceDisplay(new Intl.NumberFormat('id-ID').format(dailyPriceDisplay))
+      }
+
+      if(props.inputLabel === 'Bulan'){
+        const dailyPriceDisplay = Math.floor(parseInt(price) / 30)
+        setDailyPriceDisplay(new Intl.NumberFormat('id-ID').format(dailyPriceDisplay))
+      }
+    }
   }, [price])
 
   if(props.secondaryType === 'price'){
@@ -79,14 +104,16 @@ const CustomFormInputWithAdornment = (props) => {
                 onBlur={handleBlur}  
               />
             }
-            
         </div>
         {props.adornmentLabel === 'Rp.' &&
           <i style={{fontSize:'0.8rem', marginLeft:'10px'}}>
             {labelFocus? 
-            <span className="secondary-font-color">
-               Rp. {priceDisplay} {renderInputUnit()}
-            </span> : <span>Rp. {priceDisplay} {renderInputUnit()}</span>}
+              <p className="secondary-font-color">
+                Rp. {priceDisplay} {renderInputUnit()} {renderDaily()}
+              </p> 
+              :
+              <p>Rp. {priceDisplay} {renderInputUnit()} {renderDaily()} </p>
+            }
           </i>
         }
 
