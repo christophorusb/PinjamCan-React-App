@@ -3,7 +3,7 @@ import Row from 'react-bootstrap/Row';
 import Skeleton from '@mui/material/Skeleton';
 import { Link } from 'react-router-dom';
 import ItemCard from '../../shared/ItemCard/ItemCard';
-import {Modal as AntDModal} from 'antd';
+import {Modal as AntDModal, message} from 'antd';
 import Button from 'react-bootstrap/Button'
 import { v4 as uuidv4 } from 'uuid';
 import NoItemsDisplayed from './NoItemsDisplayed';
@@ -14,8 +14,9 @@ import axios from 'axios'
 const ItemsDisplayed = (props) => {
     //console.log(props)
     const handleDeleteItemFromWishList = (itemId) => {
-        console.log('delete from wishlist')
-        console.log(itemId)
+        // console.log('delete from wishlist')
+        // console.log(itemId)
+        const hide = message.loading({ content: <strong className="secondary-font-color">Menghapus barang dari wishlist...</strong>, duration: 0})
         axios({
             method: 'DELETE',
             url: `${process.env.REACT_APP_URL_TO_BACKEND}/api/wishlist/${itemId}`,
@@ -25,6 +26,7 @@ const ItemsDisplayed = (props) => {
             }
         }).then(res => {
             if(res.data.statusText === 'ITEM_DELETED_FROM_WISHLIST'){
+                hide()
                 AntDModal.success({
                     content: 'Barang sudah dihapus dari wishlist!',
                     onOk: () => {
