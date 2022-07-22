@@ -1,5 +1,5 @@
-# pinjamcan-app-dev
-Thesis stuff
+# PinjamCan
+PinjamCan is a hobby-focused, Indonesian C2C rental marketplace web application built with the MERN technology stack.
 
 ## Some pre-requisites
 Need to install Node.js and npm, here is the link : https://nodejs.org/en/
