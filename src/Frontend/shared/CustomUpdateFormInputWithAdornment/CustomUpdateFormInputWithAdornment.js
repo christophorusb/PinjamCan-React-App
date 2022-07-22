@@ -7,6 +7,7 @@ const CustomUpdateFormInputWithAdornment = (props) => {
     const [labelFocus, setLabelFocus] = useState(false)
     const [price, setPrice] = useState(props.existingValue)
     const [priceDisplay, setPriceDisplay] = useState(props.existingValue)
+    const [dailyPriceDisplay, setDailyPriceDisplay] = useState('0')
     const [adornmentFocus, setAdornmentFocus] = useState(false)
     const { register, formState: { errors } } = useFormContext()
     const inputName = props.inputName
@@ -30,6 +31,24 @@ const CustomUpdateFormInputWithAdornment = (props) => {
         return <span>/{props.inputLabel}</span>  
       }    
     };
+
+    const renderDaily = () => {
+      if(props.inputLabel !== 'Hari'){
+        if(props.inputLabel === 'Minggu'){
+          return (
+            <div>(Rp. {dailyPriceDisplay} /Hari)</div>
+          )
+        }
+        else if(props.inputLabel === 'Bulan'){
+          return (
+            <div>(Rp. {dailyPriceDisplay} /Hari)</div>
+          )
+        }
+        else{ 
+          return null
+        }
+      }
+    }
   
     const validationStructure = {
       ...inputValidation,
@@ -41,6 +60,19 @@ const CustomUpdateFormInputWithAdornment = (props) => {
     useEffect(() => {
       //console.log(new Intl.NumberFormat('id-ID').format(price))
       setPriceDisplay(new Intl.NumberFormat('id-ID').format(price))
+      if(labelCheckControl.includes(props.inputLabel))
+      {
+        console.log('label exist')
+        if(props.inputLabel === 'Minggu'){
+          const dailyPriceDisplay = Math.floor(parseInt(price) / 7)
+          setDailyPriceDisplay(new Intl.NumberFormat('id-ID').format(dailyPriceDisplay))
+        }
+
+        if(props.inputLabel === 'Bulan'){
+          const dailyPriceDisplay = Math.floor(parseInt(price) / 30)
+          setDailyPriceDisplay(new Intl.NumberFormat('id-ID').format(dailyPriceDisplay))
+        }
+      }
     }, [price])
 
   
@@ -78,11 +110,11 @@ const CustomUpdateFormInputWithAdornment = (props) => {
           {props.adornmentLabel === 'Rp.' &&
             <i style={{fontSize:'0.8rem', marginLeft:'10px'}}>
               {labelFocus? 
-              <span className="secondary-font-color">
-                 Rp. {priceDisplay} {renderInputUnit()}
-              </span> 
+              <p className="secondary-font-color">
+                 Rp. {priceDisplay} {renderInputUnit()} {renderDaily()}
+              </p> 
               : 
-              <span>Rp. {priceDisplay} {renderInputUnit()}</span>}
+              <p>Rp. {priceDisplay} {renderInputUnit()} {renderDaily()}</p>}
             </i>
           }
   
