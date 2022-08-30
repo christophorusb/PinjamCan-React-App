@@ -35,6 +35,10 @@
     border: none;
 }
 
+.secondary-font-color:hover{
+    color: #b0355a;
+}
+
 .secondary-button-outlined{
     background-color: rgba(0, 0, 0, 0);
     color: #3D4667;
@@ -152,7 +156,7 @@
 }
 
 .search-button{
-    background-color: #fa5d8c;
+    background-color: #FC5185;
     color: white;
     margin-left: -10px;
     border-radius: 0 6px 6px 0;
@@ -160,7 +164,7 @@
 }
 
 .search-button:hover{
-    background-color: #e74878;
+    background-color: #FC5185;
     color: rgb(212, 210, 210);
 }
 
@@ -293,5 +297,9 @@
 
 .my-item-row:hover{
     transform: scale(1.02);
+}
+
+.terms-conditions-list .term{
+    margin-bottom: 20px;
 }
 

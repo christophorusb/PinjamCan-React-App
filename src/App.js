@@ -16,6 +16,7 @@ import WithDasboardNavNoFooter from './Frontend/shared/WithDashboardNavNoFooter'
 //pages
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Home from './Frontend/Home/pages/Home';
+import TermsAndConditions from './Frontend/TermsAndConditions/pages/TermsAndConditions'
 import Login from './Frontend/Login/Pages/Login';
 import ForgotPassword from './Frontend/Login/Pages/ForgotPassword';
 import Register from './Frontend/Register/pages/Register';
@@ -24,7 +25,6 @@ import AuthHome from './Frontend/AuthHome/pages/AuthHome'
 import ItemsByCategory from './Frontend/ItemsByCategory/pages/ItemsByCategory'
 import ProductListing from './Frontend/ProductListing/pages/ProductListing';
 import ProductListing_CloudinaryActive from './Frontend/ProductListing/pages/ProductListing_CloudinaryActive';
-// import TestComponent from './Frontend/TESTING COMPONENT/TestComponent'
 import ItemDetail from './Frontend/ItemDetail/pages/ItemDetail';
 import SearchedItems from './Frontend/SearchedItems/pages/SearchedItems';
 import CreateNewPassword from './Frontend/Login/Pages/CreateNewPassword';
@@ -36,7 +36,8 @@ import MyItems from './Frontend/MyItems/pages/MyItems';
 import Profile from './Frontend/Profile/pages/Profile';
 import EditItem from './Frontend/MyItems/pages/EditItem';
 import EditItem_CloudinaryActive from './Frontend/MyItems/pages/EditItem_CloudinaryActive';
-//import { useSelector, useDispatch } from 'react-redux'
+
+// import { useSelector, useDispatch } from 'react-redux'
 import './customGeneralStyle.css'
 import 'antd/dist/antd.min.css'
 
@@ -61,6 +62,7 @@ const App = () => {
               <Route path="/search/:searchKeyword" element={<SearchedItems />} />
               <Route path="/category" element={<ItemsByCategory />} />
               <Route path="/item/:itemId" element={<ItemDetail />} />
+              <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
             </Route>
             <Route element={<WithDashboardNav />}>
               <Route path="/home" element={

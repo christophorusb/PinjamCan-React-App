@@ -12,10 +12,10 @@ const TermsConditionsPrivacyPolicy = () => {
                 Syarat dan Ketentuan
             </Link>
             {' '}
-            serta {' '}
-            <Link to="#" className="link-to-privacy-policy secondary-font-color">
+            {/* serta {' '} */}
+            {/* <Link to="#" className="link-to-privacy-policy secondary-font-color">
                 Kebijakan Privasi
-            </Link>
+            </Link> */}
         </p>
     </div>
   )
